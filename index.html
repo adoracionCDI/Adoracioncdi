@@ -1,57 +1,162 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Planificador de Servicio - Iglesia</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<title>App Iglesia - Roles</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 15px;
+}
+h1, h2 {
+    text-align: center;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    background: #2c7be5;
+    color: white;
+}
+button.secondary {
+    background: #6c757d;
+}
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+}
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+.small-btn {
+    width: auto;
+    padding: 5px 8px;
+    font-size: 14px;
+}
+.hidden {
+    display: none;
+}
+</style>
 </head>
 <body>
 
-<header>
-    <h1>📅 Planificador de Servicio</h1>
-    <p>Iglesia</p>
-</header>
+<!-- SELECCIÓN DE ROL -->
+<div id="roles">
+    <h1>Seleccionar Rol</h1>
+    <button onclick="openAdmin()">Administrador</button>
+    <button class="secondary">Director (próximamente)</button>
+    <button class="secondary">Músico (próximamente)</button>
+</div>
 
-<main class="container">
+<!-- ADMIN -->
+<div id="admin" class="hidden">
+    <h1>Administrador</h1>
 
-    <section class="form-section">
-        <h2>Agregar Servicio</h2>
+    <div class="card">
+        <h2>Agregar Director</h2>
+        <input id="directorInput" placeholder="Nombre del director">
+        <button onclick="addDirector()">Agregar</button>
+        <div id="directoresList"></div>
+    </div>
 
-        <label>Fecha</label>
-        <input type="date" id="fecha">
+    <div class="card">
+        <h2>Agregar Músico</h2>
+        <input id="musicoInput" placeholder="Nombre del músico">
+        <button onclick="addMusico()">Agregar</button>
+        <div id="musicosList"></div>
+    </div>
 
-        <label>Ministerio</label>
-        <select id="ministerio">
-            <option value="">Seleccionar</option>
-            <option>Alabanza</option>
-            <option>Predicación</option>
-            <option>Sonido</option>
-            <option>Recepción</option>
-            <option>Escuela Bíblica</option>
-        </select>
+    <button class="secondary" onclick="goBack()">Volver</button>
+</div>
 
-        <label>Responsable</label>
-        <input type="text" id="responsable" placeholder="Nombre del responsable">
+<script>
+let directores = JSON.parse(localStorage.getItem("directores")) || [];
+let musicos = JSON.parse(localStorage.getItem("musicos")) || [];
 
-        <button onclick="agregarServicio()">➕ Agregar</button>
-    </section>
+function openAdmin() {
+    document.getElementById("roles").classList.add("hidden");
+    document.getElementById("admin").classList.remove("hidden");
+    render();
+}
 
-    <section class="list-section">
-        <h2>Servicios Programados</h2>
-        <div id="listaServicios"></div>
-    </section>
+function goBack() {
+    document.getElementById("admin").classList.add("hidden");
+    document.getElementById("roles").classList.remove("hidden");
+}
 
-</main>
+function save() {
+    localStorage.setItem("directores", JSON.stringify(directores));
+    localStorage.setItem("musicos", JSON.stringify(musicos));
+}
 
-<footer>
-    <p>© 2026 - Planificador Iglesia</p>
-</footer>
+function addDirector() {
+    let name = directorInput.value.trim();
+    if (name) {
+        directores.push(name);
+        directorInput.value = "";
+        save();
+        render();
+    }
+}
 
-<!-- JavaScript -->
-<script src="js/app.js"></script>
+function addMusico() {
+    let name = musicoInput.value.trim();
+    if (name) {
+        musicos.push(name);
+        musicoInput.value = "";
+        save();
+        render();
+    }
+}
+
+function removeDirector(i) {
+    directores.splice(i, 1);
+    save();
+    render();
+}
+
+function removeMusico(i) {
+    musicos.splice(i, 1);
+    save();
+    render();
+}
+
+function render() {
+    directoresList.innerHTML = "";
+    musicosList.innerHTML = "";
+
+    directores.forEach((d, i) => {
+        directoresList.innerHTML += `
+        <div class="list-item">
+            ${d}
+            <button class="small-btn" onclick="removeDirector(${i})">🗑</button>
+        </div>`;
+    });
+
+    musicos.forEach((m, i) => {
+        musicosList.innerHTML += `
+        <div class="list-item">
+            ${m}
+            <button class="small-btn" onclick="removeMusico(${i})">🗑</button>
+        </div>`;
+    });
+}
+</script>
 
 </body>
 </html>
