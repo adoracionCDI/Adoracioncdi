@@ -1,11 +1,133 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Mi Iglesia</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificador de Servicio - Iglesia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        select, button {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #ecf0f1;
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 6px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
-<body>
-  <h1>Bienvenidos a la Iglesia</h1>
-  <p>Web funcionando 🎉</p>
+<body><h1>Planificador de Servicio</h1>
+
+<!-- Pantalla de inicio / rol -->
+<div class="card" id="pantallaRol">
+    <h2>Selecciona tu rol</h2>
+    <button onclick="entrarComo('director')">Director</button>
+    <button onclick="entrarComo('musico')">Músico</button>
+</div>
+
+<!-- Contenido principal -->
+<div class="card hidden" id="contenido">
+    <label for="director">Elige un director:</label><br>
+    <select id="director"></select>
+
+    <h2>Canciones disponibles</h2>
+    <ul id="canciones"></ul>
+
+    <!-- Opciones solo para director -->
+    <div id="opcionesDirector" class="hidden">
+        <h2>Agregar canción</h2>
+        <input type="text" id="nuevaCancion" placeholder="Nombre de la canción">
+        <button onclick="agregarCancion()">Agregar</button>
+    </div>
+</div>
+
+<script>
+    const cancionesPorDirector = {
+        Oscar: ["Cuerdas de Amor", "Alabanza Eterna"],
+        Luis: ["Hermoso Nombre", "Gloria Eterna"],
+        María: ["Dios de Maravillas", "Paz Interior"]
+    };
+
+    let rolActual = null;
+
+    const pantallaRol = document.getElementById('pantallaRol');
+    const contenido = document.getElementById('contenido');
+    const directorSelect = document.getElementById('director');
+    const listaCanciones = document.getElementById('canciones');
+    const opcionesDirector = document.getElementById('opcionesDirector');
+
+    function entrarComo(rol) {
+        rolActual = rol;
+        pantallaRol.classList.add('hidden');
+        contenido.classList.remove('hidden');
+
+        if (rol === 'director') {
+            opcionesDirector.classList.remove('hidden');
+        }
+
+        cargarDirectores();
+    }
+
+    function cargarDirectores() {
+        directorSelect.innerHTML = '';
+        for (let director in cancionesPorDirector) {
+            const option = document.createElement('option');
+            option.value = director;
+            option.textContent = director;
+            directorSelect.appendChild(option);
+        }
+        mostrarCanciones();
+    }
+
+    directorSelect.addEventListener('change', mostrarCanciones);
+
+    function mostrarCanciones() {
+        const director = directorSelect.value;
+        const canciones = cancionesPorDirector[director] || [];
+        listaCanciones.innerHTML = '';
+
+        canciones.forEach(cancion => {
+            const li = document.createElement('li');
+            li.textContent = cancion;
+            listaCanciones.appendChild(li);
+        });
+    }
+
+    function agregarCancion() {
+        const director = directorSelect.value;
+        const nueva = document.getElementById('nuevaCancion').value.trim();
+        if (!nueva) return;
+
+        cancionesPorDirector[director].push(nueva);
+        document.getElementById('nuevaCancion').value = '';
+        mostrarCanciones();
+    }
+</script>
+
 </body>
 </html>
