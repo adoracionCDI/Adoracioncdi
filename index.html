@@ -2,86 +2,159 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>App Iglesia - Roles</title>
+<title>App Iglesia - Gestión de Roles</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
+:root {
+    --primary: #2c7be5;
+    --secondary: #6c757d;
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --text: #333;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
     margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* HEADER */
+header {
+    background: var(--primary);
+    color: white;
     padding: 15px;
-}
-h1, h2 {
     text-align: center;
+    font-size: 18px;
 }
+
+/* CONTENEDOR */
+.container {
+    padding: 15px;
+    max-width: 500px;
+    margin: auto;
+}
+
+/* TARJETAS */
+.card {
+    background: var(--card);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* BOTONES */
 button {
     width: 100%;
     padding: 12px;
-    margin: 8px 0;
+    margin-top: 8px;
     font-size: 16px;
     border: none;
-    border-radius: 6px;
-    background: #2c7be5;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button.primary {
+    background: var(--primary);
     color: white;
 }
+
 button.secondary {
-    background: #6c757d;
+    background: var(--secondary);
+    color: white;
 }
-.card {
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
+
+button.small {
+    width: auto;
+    padding: 6px 10px;
+    font-size: 14px;
 }
+
+/* INPUTS */
 input {
     width: 100%;
     padding: 10px;
-    margin: 5px 0;
+    margin-top: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
 }
+
+/* LISTA */
 .list-item {
     display: flex;
     justify-content: space-between;
-    margin: 5px 0;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
 }
-.small-btn {
-    width: auto;
-    padding: 5px 8px;
-    font-size: 14px;
-}
+
+/* OCULTO */
 .hidden {
     display: none;
 }
+
+/* FOOTER NAV */
+.nav-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #ddd;
+    padding: 10px;
+}
 </style>
 </head>
+
 <body>
 
-<!-- SELECCIÓN DE ROL -->
-<div id="roles">
-    <h1>Seleccionar Rol</h1>
-    <button onclick="openAdmin()">Administrador</button>
-    <button class="secondary">Director (próximamente)</button>
-    <button class="secondary">Músico (próximamente)</button>
+<header>
+    App Iglesia – Gestión
+</header>
+
+<div class="container">
+
+<!-- MENÚ PRINCIPAL -->
+<div id="menu">
+    <div class="card">
+        <h2>Seleccionar Rol</h2>
+        <button class="primary" onclick="openAdmin()">Administrador</button>
+        <button class="secondary" disabled>Director (próximamente)</button>
+        <button class="secondary" disabled>Músico (próximamente)</button>
+    </div>
 </div>
 
 <!-- ADMIN -->
 <div id="admin" class="hidden">
-    <h1>Administrador</h1>
 
     <div class="card">
         <h2>Agregar Director</h2>
         <input id="directorInput" placeholder="Nombre del director">
-        <button onclick="addDirector()">Agregar</button>
+        <button class="primary" onclick="addDirector()">Agregar</button>
         <div id="directoresList"></div>
     </div>
 
     <div class="card">
         <h2>Agregar Músico</h2>
         <input id="musicoInput" placeholder="Nombre del músico">
-        <button onclick="addMusico()">Agregar</button>
+        <button class="primary" onclick="addMusico()">Agregar</button>
         <div id="musicosList"></div>
     </div>
 
-    <button class="secondary" onclick="goBack()">Volver</button>
+</div>
+
+</div>
+
+<!-- BARRA INFERIOR -->
+<div class="nav-bottom">
+    <button class="secondary" onclick="goHome()">🏠 Menú Principal</button>
 </div>
 
 <script>
@@ -89,14 +162,14 @@ let directores = JSON.parse(localStorage.getItem("directores")) || [];
 let musicos = JSON.parse(localStorage.getItem("musicos")) || [];
 
 function openAdmin() {
-    document.getElementById("roles").classList.add("hidden");
-    document.getElementById("admin").classList.remove("hidden");
+    menu.classList.add("hidden");
+    admin.classList.remove("hidden");
     render();
 }
 
-function goBack() {
-    document.getElementById("admin").classList.add("hidden");
-    document.getElementById("roles").classList.remove("hidden");
+function goHome() {
+    admin.classList.add("hidden");
+    menu.classList.remove("hidden");
 }
 
 function save() {
@@ -105,23 +178,21 @@ function save() {
 }
 
 function addDirector() {
-    let name = directorInput.value.trim();
-    if (name) {
-        directores.push(name);
-        directorInput.value = "";
-        save();
-        render();
-    }
+    const name = directorInput.value.trim();
+    if (!name) return;
+    directores.push(name);
+    directorInput.value = "";
+    save();
+    render();
 }
 
 function addMusico() {
-    let name = musicoInput.value.trim();
-    if (name) {
-        musicos.push(name);
-        musicoInput.value = "";
-        save();
-        render();
-    }
+    const name = musicoInput.value.trim();
+    if (!name) return;
+    musicos.push(name);
+    musicoInput.value = "";
+    save();
+    render();
 }
 
 function removeDirector(i) {
@@ -144,7 +215,7 @@ function render() {
         directoresList.innerHTML += `
         <div class="list-item">
             ${d}
-            <button class="small-btn" onclick="removeDirector(${i})">🗑</button>
+            <button class="small" onclick="removeDirector(${i})">🗑</button>
         </div>`;
     });
 
@@ -152,7 +223,7 @@ function render() {
         musicosList.innerHTML += `
         <div class="list-item">
             ${m}
-            <button class="small-btn" onclick="removeMusico(${i})">🗑</button>
+            <button class="small" onclick="removeMusico(${i})">🗑</button>
         </div>`;
     });
 }
