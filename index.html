@@ -1,103 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Prueba Música</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { font-family: Arial; background:#f4f6f8; padding:20px; }
-        h1 { text-align:center; }
-        ul { list-style:none; padding:0; }
-        li { padding:8px; border-bottom:1px solid #ddd; display:flex; align-items:center; }
-        li:last-child { border-bottom:none; }
-        .tarjeta { display:flex; align-items:center; margin-bottom:8px; padding:8px; background:white; border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
-        button { margin-left:8px; padding:4px 10px; border:none; border-radius:4px; cursor:pointer; }
-        .primary { background:#4CAF50; color:white; }
-        .secondary { background:#2196F3; color:white; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Gestión de Alabanza</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-<h1>🎶 Prueba Inserción Música</h1>
+  <h1>Planificador de Servicio</h1>
 
-<section>
-    <h2>👤 Directores</h2>
-    <ul id="lista-directores">
-        <li>Cargando directores...</li>
-    </ul>
-</section>
+  <label for="director">Elegir director:</label>
+  <select id="director">
+    <option value="">-- elegir director --</option>
+    <option value="oscar">Oscar</option>
+    <option value="luis">Luis</option>
+  </select>
 
-<section>
-    <h2>🎵 Músicas</h2>
-    <ul id="lista-musicas">
-        <li>Cargando músicas...</li>
-    </ul>
-</section>
+  <hr>
 
-<button id="btn-prueba" class="primary">Probar insertar música</button>
+  <h2>Canciones</h2>
+  <ul id="listaCanciones"></ul>
 
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-<script>
-// --- Conexión Supabase ---
-const supabaseUrl = 'https://atmflikzjdhwnssjsxhn.supabase.co';
-const supabaseKey = 'sb_publishable_Zzdtdqy9KNl6wqy49JJehg_nxPcGyfF';
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-
-// --- Cargar directores y músicas ---
-async function cargarDirectores() {
-    const { data, error } = await supabaseClient.from('directores').select('*');
-    const lista = document.getElementById('lista-directores');
-    lista.innerHTML = '';
-    if (error) return lista.innerHTML = `<li>Error: ${error.message}</li>`;
-    data.forEach(d => {
-        const li = document.createElement('li');
-        li.textContent = d.nombre + ` (${d.id})`;
-        li.className = 'tarjeta';
-        lista.appendChild(li);
-    });
-}
-
-async function cargarMusicas() {
-    const { data, error } = await supabaseClient.from('musicas').select('*');
-    const lista = document.getElementById('lista-musicas');
-    lista.innerHTML = '';
-    if (error) return lista.innerHTML = `<li>Error: ${error.message}</li>`;
-    if (data.length === 0) return lista.innerHTML = '<li>No hay músicas</li>';
-    data.forEach(m => {
-        const li = document.createElement('li');
-        li.className = 'tarjeta';
-        li.textContent = m.titulo + (m.acorde_url ? ' 🎹' : '');
-        lista.appendChild(li);
-    });
-}
-
-// --- Función de prueba insert ---
-async function pruebaInsertMusica() {
-    const { data, error } = await supabaseClient.from('musicas').insert([{
-        titulo: 'Canción de prueba',
-        director_id: '5b772b19-cd03-41b0-afe5-24b7d2c52a6e',
-        acorde_url: null
-    }]);
-
-    if (error) {
-        alert('❌ Error insertando música: ' + error.message);
-        console.error(error);
-    } else {
-        alert('✅ Música insertada correctamente!');
-        console.log(data);
-        cargarMusicas();
-    }
-}
-
-// --- Botón prueba ---
-document.getElementById('btn-prueba').addEventListener('click', pruebaInsertMusica);
-
-// --- Inicializar ---
-cargarDirectores();
-cargarMusicas();
-</script>
+  <!-- Tu código -->
+  <script src="js/supabase.js"></script>
+  <script src="js/app.js"></script>
 
 </body>
 </html>
