@@ -1,7 +1,7 @@
 console.log('app.js cargado');
 
 async function probarSupabase() {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from('canciones')
     .select('*');
 
@@ -18,7 +18,7 @@ probarSupabase();
 document.getElementById('director').addEventListener('change', async (e) => {
   const director = e.target.value;
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from('canciones')
     .select('*')
     .eq('director', director);
