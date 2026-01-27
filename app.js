@@ -1,4 +1,4 @@
-// --- Conexión a Supabase ---
+// --- Conexión Supabase ---
 const supabaseUrl = 'https://atmflikzjdhwnssjsxhn.supabase.co';
 const supabaseKey = 'sb_publishable_Zzdtdqy9KNl6wqy49JJehg_nxPcGyfF';
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
@@ -8,10 +8,9 @@ let rolUsuario = null;
 let ultimaSeccion = null;
 let editarObjeto = null;
 
-// --- Iniciar según rol ---
+// --- Iniciar app ---
 function iniciar(rol) {
     rolUsuario = rol;
-
     document.getElementById('pantalla-inicio').style.display = 'none';
     document.getElementById('app').style.display = 'block';
 
@@ -24,7 +23,7 @@ function iniciar(rol) {
     cargarMusicas();
 }
 
-// --- Función regresar ---
+// --- Regresar ---
 function regresar() {
     document.getElementById('formulario').style.display = 'none';
     document.getElementById('seccion-directores').style.display = 'block';
@@ -43,6 +42,7 @@ async function cargarDirectores() {
     data.forEach(director => {
         const li = document.createElement('li');
         li.textContent = director.nombre;
+        li.className = 'tarjeta';
         li.dataset.id = director.id;
 
         li.addEventListener('click', () => cargarMusicas(director.id));
@@ -86,8 +86,8 @@ async function cargarMusicas(directorId = null) {
 
     data.forEach(musica => {
         const li = document.createElement('li');
+        li.className = 'tarjeta';
 
-        // Imagen del acorde
         if (musica.acorde_url) {
             const img = document.createElement('img');
             img.src = musica.acorde_url;
@@ -95,6 +95,7 @@ async function cargarMusicas(directorId = null) {
             img.style.width = '50px';
             img.style.height = '50px';
             img.style.marginRight = '10px';
+            img.style.borderRadius = '4px';
             li.appendChild(img);
         }
 
@@ -140,26 +141,48 @@ async function abrirFormulario(tabla, objeto = null, crearNuevo = false) {
     const input = document.getElementById('input-nombre');
     const select = document.getElementById('select-director');
     const fileInput = document.getElementById('input-acorde');
+    const preview = document.getElementById('preview-acorde');
 
     if (tabla === 'directores') {
         input.value = objeto && !crearNuevo ? objeto.nombre : '';
         select.style.display = 'none';
         fileInput.style.display = 'none';
+        preview.style.display = 'none';
     } else if (tabla === 'musicas') {
-        input.value = ''; // vacío para escribir título
+        input.value = objeto && !crearNuevo ? objeto.titulo : '';
         select.style.display = 'inline-block';
         fileInput.style.display = 'inline-block';
-        fileInput.value = ''; // limpiar cualquier archivo previo
 
-        // Cargar directores
         const { data: directores } = await supabaseClient.from('directores').select('*');
         select.innerHTML = '';
         directores.forEach(d => {
             const option = document.createElement('option');
             option.value = d.id;
             option.textContent = d.nombre;
+            if (objeto && objeto.director_id === d.id) option.selected = true;
             select.appendChild(option);
         });
+
+        // Previsualizar imagen si ya existe
+        if (objeto && objeto.acorde_url) {
+            preview.src = objeto.acorde_url;
+            preview.style.display = 'block';
+        } else {
+            preview.src = '';
+            preview.style.display = 'none';
+        }
+
+        // Previsualización al seleccionar nuevo archivo
+        fileInput.onchange = (e) => {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    preview.src = event.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        };
     }
 }
 
@@ -168,12 +191,12 @@ document.getElementById('btn-guardar').addEventListener('click', async () => {
     const input = document.getElementById('input-nombre').value.trim();
     const select = document.getElementById('select-director').value;
     const fileInput = document.getElementById('input-acorde');
+    const preview = document.getElementById('preview-acorde');
 
     if (!input) return alert('Debe ingresar un valor');
 
     let acordeUrl = editarObjeto ? editarObjeto.acorde_url : null;
 
-    // Subir imagen si hay
     if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
         const fileName = `${Date.now()}_${file.name}`;
@@ -183,7 +206,6 @@ document.getElementById('btn-guardar').addEventListener('click', async () => {
 
         if (error) return alert('Error subiendo la imagen: ' + error.message);
 
-        // Obtener URL pública
         const { publicUrl } = supabaseClient.storage.from('musicas-acordes').getPublicUrl(fileName);
         acordeUrl = publicUrl;
     }
