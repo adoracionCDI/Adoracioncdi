@@ -1,12 +1,15 @@
-// DATOS DE SUPABASE
+// ===============================
+// CONEXIÓN A SUPABASE
+// ===============================
+
 const SUPABASE_URL = "https://atmflikzjdhwnssjsxhn.supabase.co";
 const SUPABASE_KEY = "sb_publishable_Zzdtdqy9KNl6wqy49JJehg_nxPcGyfF";
 
-// CREAR CLIENTE SUPABASE (UNA SOLA VEZ)
-const supabaseClient = window.supabase.createClient(
+// ⚠️ IMPORTANTE:
+// NO usar el nombre "supabase"
+const db = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
 
-// PRUEBA
-console.log("Supabase conectado:", supabaseClient);
+console.log("Supabase conectado OK", db);
