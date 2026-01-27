@@ -22,6 +22,7 @@
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
 
         ul {
@@ -33,6 +34,9 @@
             padding: 8px;
             border-bottom: 1px solid #ddd;
             cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         li:last-child {
@@ -44,9 +48,18 @@
         }
 
         button {
-            padding: 5px 10px;
+            padding: 6px 12px;
             margin-left: 5px;
             cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #0056b3;
         }
 
         #pantalla-inicio {
@@ -59,6 +72,26 @@
 
         #app {
             display: none;
+        }
+
+        #formulario {
+            display: none;
+            margin-top: 15px;
+        }
+
+        #formulario input {
+            padding: 5px;
+            margin-right: 5px;
+        }
+
+        #btn-atras {
+            display: none;
+            margin-bottom: 10px;
+            background: #6c757d;
+        }
+
+        #btn-atras:hover {
+            background: #495057;
         }
     </style>
 </head>
@@ -74,7 +107,9 @@
 
     <!-- Aplicación principal -->
     <div id="app">
-        <section>
+        <button id="btn-atras" onclick="regresar()">⬅ Atrás</button>
+
+        <section id="seccion-directores">
             <h2>👤 Directores</h2>
             <ul id="lista-directores">
                 <li>Cargando directores...</li>
@@ -82,19 +117,26 @@
             <button id="btn-agregar-director" style="display:none;">Agregar Director</button>
         </section>
 
-        <section>
+        <section id="seccion-musicas">
             <h2>🎵 Músicas</h2>
             <ul id="lista-musicas">
                 <li>Cargando músicas...</li>
             </ul>
             <button id="btn-agregar-musica" style="display:none;">Agregar Música</button>
         </section>
+
+        <!-- Formulario dinámico para agregar/editar -->
+        <div id="formulario">
+            <input type="text" id="input-nombre" placeholder="Nombre o título">
+            <select id="select-director" style="display:none;"></select>
+            <button id="btn-guardar">Guardar</button>
+        </div>
     </div>
 
     <!-- Librería Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Tu JS -->
+    <!-- JS -->
     <script src="app.js"></script>
 
 </body>
