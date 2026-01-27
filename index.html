@@ -9,25 +9,27 @@
 <body>
 
     <!-- Pantalla de inicio (elegir rol) -->
-    <div id="pantalla-inicio">
+    <div id="pantalla-inicio" class="centrado">
         <h1>🎶 Gestión de Alabanza</h1>
-        <button onclick="iniciar('director')">Iniciar como Director</button>
-        <button onclick="iniciar('musico')">Iniciar como Músico</button>
+        <button onclick="iniciar('director')" class="primary">Iniciar como Director</button>
+        <button onclick="iniciar('musico')" class="secondary">Iniciar como Músico</button>
     </div>
 
     <!-- App principal -->
     <div id="app" style="display:none;">
-        <h1>🎵 Gestión de Alabanza</h1>
-
-        <!-- Botones agregar -->
-        <button id="btn-agregar-director" class="primary" style="display:none;">Agregar Director</button>
-        <button id="btn-agregar-musica" class="primary" style="display:none;">Agregar Música</button>
-        <button id="btn-atras" class="secondary" style="display:none;" onclick="regresar()">Atrás</button>
+        <header>
+            <h1>🎵 Gestión de Alabanza</h1>
+            <div class="botones-header">
+                <button id="btn-agregar-director" class="primary" style="display:none;">Agregar Director</button>
+                <button id="btn-agregar-musica" class="primary" style="display:none;">Agregar Música</button>
+                <button id="btn-atras" class="secondary" style="display:none;" onclick="regresar()">Atrás</button>
+            </div>
+        </header>
 
         <!-- Sección Directores -->
         <section id="seccion-directores">
             <h2>👤 Directores</h2>
-            <ul id="lista-directores">
+            <ul id="lista-directores" class="lista-tarjetas">
                 <li>Cargando directores...</li>
             </ul>
         </section>
@@ -35,13 +37,13 @@
         <!-- Sección Músicas -->
         <section id="seccion-musicas">
             <h2>🎼 Músicas</h2>
-            <ul id="lista-musicas">
+            <ul id="lista-musicas" class="lista-tarjetas">
                 <li>Cargando músicas...</li>
             </ul>
         </section>
 
         <!-- Formulario Crear/Editar -->
-        <section id="formulario" style="display:none;">
+        <section id="formulario" style="display:none;" class="formulario-tarjeta">
             <h2 id="titulo-formulario">Formulario</h2>
             <label for="input-nombre">Nombre / Título</label>
             <input type="text" id="input-nombre" placeholder="Ingrese nombre o título">
@@ -52,14 +54,14 @@
             <label for="input-acorde">Acorde (imagen)</label>
             <input type="file" id="input-acorde" accept="image/*">
 
+            <!-- Previsualización de la imagen -->
+            <img id="preview-acorde" src="" alt="Vista previa del acorde" style="display:none; width:100px; margin-top:10px; border-radius:4px;">
+
             <button id="btn-guardar" class="primary">Guardar</button>
         </section>
     </div>
 
-    <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- App JS -->
     <script src="app.js"></script>
-
 </body>
 </html>
