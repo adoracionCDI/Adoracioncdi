@@ -1,233 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>App Iglesia - Gestión de Roles</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Gestión de Alabanza</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-:root {
-    --primary: #2c7be5;
-    --secondary: #6c757d;
-    --bg: #f4f6f8;
-    --card: #ffffff;
-    --text: #333;
-}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
 
-* {
-    box-sizing: border-box;
-}
+        h1 {
+            text-align: center;
+        }
 
-body {
-    margin: 0;
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-}
+        section {
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
 
-/* HEADER */
-header {
-    background: var(--primary);
-    color: white;
-    padding: 15px;
-    text-align: center;
-    font-size: 18px;
-}
+        ul {
+            list-style: none;
+            padding: 0;
+        }
 
-/* CONTENEDOR */
-.container {
-    padding: 15px;
-    max-width: 500px;
-    margin: auto;
-}
+        li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
 
-/* TARJETAS */
-.card {
-    background: var(--card);
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-/* BOTONES */
-button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 8px;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-button.primary {
-    background: var(--primary);
-    color: white;
-}
-
-button.secondary {
-    background: var(--secondary);
-    color: white;
-}
-
-button.small {
-    width: auto;
-    padding: 6px 10px;
-    font-size: 14px;
-}
-
-/* INPUTS */
-input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
-
-/* LISTA */
-.list-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid #eee;
-}
-
-/* OCULTO */
-.hidden {
-    display: none;
-}
-
-/* FOOTER NAV */
-.nav-bottom {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    border-top: 1px solid #ddd;
-    padding: 10px;
-}
-</style>
+        li:last-child {
+            border-bottom: none;
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-    App Iglesia – Gestión
-</header>
+    <h1>🎶 Gestión de Alabanza</h1>
 
-<div class="container">
+    <section>
+        <h2>👤 Directores</h2>
+        <ul id="lista-directores">
+            <li>Cargando directores...</li>
+        </ul>
+    </section>
 
-<!-- MENÚ PRINCIPAL -->
-<div id="menu">
-    <div class="card">
-        <h2>Seleccionar Rol</h2>
-        <button class="primary" onclick="openAdmin()">Administrador</button>
-        <button class="secondary" disabled>Director (próximamente)</button>
-        <button class="secondary" disabled>Músico (próximamente)</button>
-    </div>
-</div>
+    <section>
+        <h2>🎵 Músicas</h2>
+        <ul id="lista-musicas">
+            <li>Cargando músicas...</li>
+        </ul>
+    </section>
 
-<!-- ADMIN -->
-<div id="admin" class="hidden">
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <div class="card">
-        <h2>Agregar Director</h2>
-        <input id="directorInput" placeholder="Nombre del director">
-        <button class="primary" onclick="addDirector()">Agregar</button>
-        <div id="directoresList"></div>
-    </div>
-
-    <div class="card">
-        <h2>Agregar Músico</h2>
-        <input id="musicoInput" placeholder="Nombre del músico">
-        <button class="primary" onclick="addMusico()">Agregar</button>
-        <div id="musicosList"></div>
-    </div>
-
-</div>
-
-</div>
-
-<!-- BARRA INFERIOR -->
-<div class="nav-bottom">
-    <button class="secondary" onclick="goHome()">🏠 Menú Principal</button>
-</div>
-
-<script>
-let directores = JSON.parse(localStorage.getItem("directores")) || [];
-let musicos = JSON.parse(localStorage.getItem("musicos")) || [];
-
-function openAdmin() {
-    menu.classList.add("hidden");
-    admin.classList.remove("hidden");
-    render();
-}
-
-function goHome() {
-    admin.classList.add("hidden");
-    menu.classList.remove("hidden");
-}
-
-function save() {
-    localStorage.setItem("directores", JSON.stringify(directores));
-    localStorage.setItem("musicos", JSON.stringify(musicos));
-}
-
-function addDirector() {
-    const name = directorInput.value.trim();
-    if (!name) return;
-    directores.push(name);
-    directorInput.value = "";
-    save();
-    render();
-}
-
-function addMusico() {
-    const name = musicoInput.value.trim();
-    if (!name) return;
-    musicos.push(name);
-    musicoInput.value = "";
-    save();
-    render();
-}
-
-function removeDirector(i) {
-    directores.splice(i, 1);
-    save();
-    render();
-}
-
-function removeMusico(i) {
-    musicos.splice(i, 1);
-    save();
-    render();
-}
-
-function render() {
-    directoresList.innerHTML = "";
-    musicosList.innerHTML = "";
-
-    directores.forEach((d, i) => {
-        directoresList.innerHTML += `
-        <div class="list-item">
-            ${d}
-            <button class="small" onclick="removeDirector(${i})">🗑</button>
-        </div>`;
-    });
-
-    musicos.forEach((m, i) => {
-        musicosList.innerHTML += `
-        <div class="list-item">
-            ${m}
-            <button class="small" onclick="removeMusico(${i})">🗑</button>
-        </div>`;
-    });
-}
-</script>
+    <!-- TU JS -->
+    <script src="app.js"></script>
 
 </body>
 </html>
