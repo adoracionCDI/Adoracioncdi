@@ -4,59 +4,61 @@
     <meta charset="UTF-8">
     <title>Gestión de Alabanza</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!-- Archivo CSS externo -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-    <!-- Pantalla de inicio -->
+    <!-- Pantalla de inicio (elegir rol) -->
     <div id="pantalla-inicio">
         <h1>🎶 Gestión de Alabanza</h1>
-        <p>Elige tu rol:</p>
-        <button class="primary" onclick="iniciar('director')">Director</button>
-        <button class="primary" onclick="iniciar('musico')">Músico</button>
+        <button onclick="iniciar('director')">Iniciar como Director</button>
+        <button onclick="iniciar('musico')">Iniciar como Músico</button>
     </div>
 
-    <!-- Aplicación principal -->
-    <div id="app">
-        <button id="btn-atras" class="secondary" onclick="regresar()">⬅ Atrás</button>
+    <!-- App principal -->
+    <div id="app" style="display:none;">
+        <h1>🎵 Gestión de Alabanza</h1>
 
-        <!-- Directores -->
+        <!-- Botones agregar -->
+        <button id="btn-agregar-director" class="primary" style="display:none;">Agregar Director</button>
+        <button id="btn-agregar-musica" class="primary" style="display:none;">Agregar Música</button>
+        <button id="btn-atras" class="secondary" style="display:none;" onclick="regresar()">Atrás</button>
+
+        <!-- Sección Directores -->
         <section id="seccion-directores">
             <h2>👤 Directores</h2>
             <ul id="lista-directores">
                 <li>Cargando directores...</li>
             </ul>
-            <button id="btn-agregar-director" class="primary" style="display:none;">Agregar Director</button>
         </section>
 
-        <!-- Músicas -->
+        <!-- Sección Músicas -->
         <section id="seccion-musicas">
-            <h2>🎵 Músicas</h2>
+            <h2>🎼 Músicas</h2>
             <ul id="lista-musicas">
                 <li>Cargando músicas...</li>
             </ul>
-            <button id="btn-agregar-musica" class="primary" style="display:none;">Agregar Música</button>
         </section>
 
-        <!-- Formulario dinámico -->
-        <div id="formulario">
-            <input type="text" id="input-nombre" placeholder="Nombre o Título">
-            <select id="select-director" style="display:none;"></select>
+        <!-- Formulario Crear/Editar -->
+        <section id="formulario" style="display:none;">
+            <h2 id="titulo-formulario">Formulario</h2>
+            <label for="input-nombre">Nombre / Título</label>
+            <input type="text" id="input-nombre" placeholder="Ingrese nombre o título">
+
+            <label for="select-director">Director</label>
+            <select id="select-director"></select>
+
+            <label for="input-acorde">Acorde (imagen)</label>
+            <input type="file" id="input-acorde" accept="image/*">
+
             <button id="btn-guardar" class="primary">Guardar</button>
-        </div>
+        </section>
     </div>
 
-    <!-- Librería Supabase -->
+    <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- Tu JS -->
+    <!-- App JS -->
     <script src="app.js"></script>
 
 </body>
