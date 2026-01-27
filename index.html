@@ -4,71 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestión de Alabanza</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    /* Reset básico */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom, #4e54c8, #8f94fb);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 40px;
-      text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
-    }
-
-    .roles {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .role-btn {
-      padding: 20px;
-      font-size: 1.3rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: 0.3s;
-      background: rgba(255,255,255,0.2);
-      color: #fff;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-
-    .role-btn:hover {
-      background: rgba(255,255,255,0.35);
-      transform: translateY(-3px);
-      box-shadow: 0 6px 10px rgba(0,0,0,0.25);
-    }
-
-    @media (max-width: 500px) {
-      h1 {
-        font-size: 2rem;
-      }
-      .role-btn {
-        font-size: 1.1rem;
-        padding: 16px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -80,21 +16,6 @@
     <button class="role-btn" data-role="musico">Músico</button>
   </div>
 
-  <script>
-    // Detectar click y mostrar el rol seleccionado
-    const buttons = document.querySelectorAll('.role-btn');
-
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const rol = btn.getAttribute('data-role');
-        // Guardar rol en localStorage para usar en otras páginas si querés
-        localStorage.setItem('rolUsuario', rol);
-        // Redirigir a la página correspondiente según rol
-        alert(`Has seleccionado: ${rol}`);
-        // Aquí podés cambiar por: window.location.href = "paginaRol.html";
-      });
-    });
-  </script>
-
+  <script src="js/main.js"></script>
 </body>
 </html>
