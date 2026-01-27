@@ -1,12 +1,12 @@
-// Conexión a Supabase
+// --- Conexión a Supabase ---
 const supabaseUrl = 'https://atmflikzjdhwnssjsxhn.supabase.co';
 const supabaseKey = 'sb_publishable_Zzdtdqy9KNl6wqy49JJehg_nxPcGyfF';
-window.supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-// Variables globales
+// --- Variables globales ---
 let rolUsuario = null;
 let ultimaSeccion = null; // 'directores' o 'musicas'
-let editarObjeto = null;  // Objeto que se está editando
+let editarObjeto = null;  // objeto que se está editando
 
 // --- Iniciar según rol ---
 function iniciar(rol) {
@@ -32,9 +32,9 @@ function regresar() {
     document.getElementById('btn-atras').style.display = 'none';
 }
 
-// --- Cargar Directores ---
+// --- Cargar directores ---
 async function cargarDirectores() {
-    const { data, error } = await window.supabaseClient.from('directores').select('*');
+    const { data, error } = await supabaseClient.from('directores').select('*');
     const lista = document.getElementById('lista-directores');
     lista.innerHTML = '';
 
@@ -50,6 +50,7 @@ async function cargarDirectores() {
         li.appendChild(span);
         li.dataset.id = director.id;
 
+        // Al hacer click en un director, filtra músicas
         li.addEventListener('click', () => cargarMusicas(director.id));
 
         if (rolUsuario === 'director') {
@@ -64,7 +65,7 @@ async function cargarDirectores() {
             btnEliminar.onclick = (e) => { 
                 e.stopPropagation();
                 if (confirm(`Eliminar director ${director.nombre}?`)) {
-                    window.supabaseClient.from('directores').delete().eq('id', director.id)
+                    supabaseClient.from('directores').delete().eq('id', director.id)
                         .then(() => cargarDirectores());
                 }
             };
@@ -77,9 +78,9 @@ async function cargarDirectores() {
     });
 }
 
-// --- Cargar Músicas ---
+// --- Cargar músicas ---
 async function cargarMusicas(directorId = null) {
-    let query = window.supabaseClient.from('musicas').select('*');
+    let query = supabaseClient.from('musicas').select('*');
     if (directorId) query = query.eq('director_id', directorId);
 
     const { data, error } = await query;
@@ -114,7 +115,7 @@ async function cargarMusicas(directorId = null) {
             btnEliminar.onclick = (e) => { 
                 e.stopPropagation();
                 if (confirm(`Eliminar música ${musica.titulo}?`)) {
-                    window.supabaseClient.from('musicas').delete().eq('id', musica.id)
+                    supabaseClient.from('musicas').delete().eq('id', musica.id)
                         .then(() => cargarMusicas(directorId));
                 }
             };
@@ -128,8 +129,8 @@ async function cargarMusicas(directorId = null) {
 }
 
 // --- Abrir formulario ---
-async function abrirFormulario(tabla, objeto = null) {
-    editarObjeto = objeto;
+async function abrirFormulario(tabla, objeto = null, crearNuevo = false) {
+    editarObjeto = crearNuevo ? null : objeto;
     ultimaSeccion = tabla;
 
     document.getElementById('formulario').style.display = 'block';
@@ -141,20 +142,19 @@ async function abrirFormulario(tabla, objeto = null) {
     const select = document.getElementById('select-director');
 
     if (tabla === 'directores') {
-        input.value = objeto ? objeto.nombre : '';
+        input.value = objeto && !crearNuevo ? objeto.nombre : '';
         select.style.display = 'none';
     } else if (tabla === 'musicas') {
-        input.value = objeto ? objeto.titulo : '';
+        input.value = ''; // ✅ Siempre vacío para escribir el tema
         select.style.display = 'inline-block';
 
         // Cargar directores en select
-        const { data: directores } = await window.supabaseClient.from('directores').select('*');
+        const { data: directores } = await supabaseClient.from('directores').select('*');
         select.innerHTML = '';
         directores.forEach(d => {
             const option = document.createElement('option');
-            option.value = d.id; // ✅ UUID como string
+            option.value = d.id; // UUID
             option.textContent = d.nombre;
-            if (objeto && objeto.director_id === d.id) option.selected = true;
             select.appendChild(option);
         });
     }
@@ -169,22 +169,22 @@ document.getElementById('btn-guardar').addEventListener('click', async () => {
 
     if (ultimaSeccion === 'directores') {
         if (editarObjeto) {
-            await window.supabaseClient.from('directores')
+            await supabaseClient.from('directores')
                 .update({ nombre: input })
                 .eq('id', editarObjeto.id);
         } else {
-            await window.supabaseClient.from('directores')
+            await supabaseClient.from('directores')
                 .insert([{ nombre: input }]);
         }
         cargarDirectores();
     } else if (ultimaSeccion === 'musicas') {
-        const directorId = select; // ✅ UUID string
+        const directorId = select; // UUID
         if (editarObjeto) {
-            await window.supabaseClient.from('musicas')
+            await supabaseClient.from('musicas')
                 .update({ titulo: input, director_id: directorId })
                 .eq('id', editarObjeto.id);
         } else {
-            await window.supabaseClient.from('musicas')
+            await supabaseClient.from('musicas')
                 .insert([{ titulo: input, director_id: directorId }]);
         }
         cargarMusicas();
@@ -194,5 +194,5 @@ document.getElementById('btn-guardar').addEventListener('click', async () => {
 });
 
 // --- Botones agregar ---
-document.getElementById('btn-agregar-director').addEventListener('click', () => abrirFormulario('directores'));
-document.getElementById('btn-agregar-musica').addEventListener('click', () => abrirFormulario('musicas'));
+document.getElementById('btn-agregar-director').addEventListener('click', () => abrirFormulario('directores', null, true));
+document.getElementById('btn-agregar-musica').addEventListener('click', () => abrirFormulario('musicas', null, true));
