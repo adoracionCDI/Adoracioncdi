@@ -2,52 +2,99 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Gestión de Alabanza</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Alabanza</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f4f6f8;
-    }
-    h1, h2 {
-      color: #2c3e50;
-    }
-    ul {
-      list-style: none;
+    /* Reset básico */
+    * {
+      margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
-    li {
-      background: #fff;
-      margin-bottom: 8px;
-      padding: 10px;
-      border-radius: 6px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #4e54c8, #8f94fb);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+    }
+
+    .roles {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .role-btn {
+      padding: 20px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+
+    .role-btn:hover {
+      background: rgba(255,255,255,0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.25);
+    }
+
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .role-btn {
+        font-size: 1.1rem;
+        padding: 16px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>Planificador de Servicio</h1>
+  <h1>Bienvenido a la Gestión de Alabanza</h1>
 
-  <label for="director">Elegir director:</label>
-  <select id="director">
-    <option value="">-- elegir director --</option>
-    <option value="oscar">Oscar</option>
-    <option value="luis">Luis</option>
-  </select>
+  <div class="roles">
+    <button class="role-btn" data-role="administrador">Administrador</button>
+    <button class="role-btn" data-role="director">Director</button>
+    <button class="role-btn" data-role="musico">Músico</button>
+  </div>
 
-  <hr>
+  <script>
+    // Detectar click y mostrar el rol seleccionado
+    const buttons = document.querySelectorAll('.role-btn');
 
-  <h2>Canciones</h2>
-  <ul id="listaCanciones"></ul>
-
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- Tu código -->
-  <script src="js/supabase.js"></script>
-  <script src="js/app.js"></script>
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const rol = btn.getAttribute('data-role');
+        // Guardar rol en localStorage para usar en otras páginas si querés
+        localStorage.setItem('rolUsuario', rol);
+        // Redirigir a la página correspondiente según rol
+        alert(`Has seleccionado: ${rol}`);
+        // Aquí podés cambiar por: window.location.href = "paginaRol.html";
+      });
+    });
+  </script>
 
 </body>
 </html>
