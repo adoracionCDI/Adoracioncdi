@@ -1,7 +1,7 @@
 // Conexión a Supabase
 const supabaseUrl = 'https://atmflikzjdhwnssjsxhn.supabase.co';
 const supabaseKey = 'sb_publishable_Zzdtdqy9KNl6wqy49JJehg_nxPcGyfF';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+window.supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 // Rol del usuario
 let rolUsuario = null;
@@ -27,7 +27,7 @@ function iniciar(rol) {
 
 // Función para cargar directores
 async function cargarDirectores() {
-    const { data, error } = await supabase.from('directores').select('*');
+    const { data, error } = await window.supabaseClient.from('directores').select('*');
     const lista = document.getElementById('lista-directores');
     lista.innerHTML = '';
 
@@ -46,10 +46,11 @@ async function cargarDirectores() {
         if (rolUsuario === 'director') {
             const btnEditar = document.createElement('button');
             btnEditar.textContent = 'Editar';
-            btnEditar.onclick = (e) => { e.stopPropagation(); alert('Editar director'); };
+            btnEditar.onclick = (e) => { e.stopPropagation(); alert(`Editar director ${director.nombre}`); };
+
             const btnEliminar = document.createElement('button');
             btnEliminar.textContent = 'Eliminar';
-            btnEliminar.onclick = (e) => { e.stopPropagation(); alert('Eliminar director'); };
+            btnEliminar.onclick = (e) => { e.stopPropagation(); alert(`Eliminar director ${director.nombre}`); };
 
             li.appendChild(btnEditar);
             li.appendChild(btnEliminar);
@@ -61,10 +62,8 @@ async function cargarDirectores() {
 
 // Función para cargar músicas, opcionalmente filtrando por director
 async function cargarMusicas(directorId = null) {
-    let query = supabase.from('canciones').select('*');
-    if (directorId) {
-        query = query.eq('director_id', directorId);
-    }
+    let query = window.supabaseClient.from('canciones').select('*');
+    if (directorId) query = query.eq('director_id', directorId);
 
     const { data, error } = await query;
     const lista = document.getElementById('lista-musicas');
@@ -87,11 +86,11 @@ async function cargarMusicas(directorId = null) {
         if (rolUsuario === 'director') {
             const btnEditar = document.createElement('button');
             btnEditar.textContent = 'Editar';
-            btnEditar.onclick = (e) => { e.stopPropagation(); alert('Editar música'); };
+            btnEditar.onclick = (e) => { e.stopPropagation(); alert(`Editar música ${cancion.titulo}`); };
 
             const btnEliminar = document.createElement('button');
             btnEliminar.textContent = 'Eliminar';
-            btnEliminar.onclick = (e) => { e.stopPropagation(); alert('Eliminar música'); };
+            btnEliminar.onclick = (e) => { e.stopPropagation(); alert(`Eliminar música ${cancion.titulo}`); };
 
             li.appendChild(btnEditar);
             li.appendChild(btnEliminar);
@@ -101,3 +100,18 @@ async function cargarMusicas(directorId = null) {
     });
 }
 
+// Opcional: botones para agregar
+document.getElementById('btn-agregar-director').addEventListener('click', () => {
+    const nombre = prompt('Nombre del nuevo director:');
+    if (!nombre) return;
+    window.supabaseClient.from('directores').insert([{ nombre }])
+        .then(() => cargarDirectores());
+});
+
+document.getElementById('btn-agregar-musica').addEventListener('click', () => {
+    const titulo = prompt('Título de la nueva música:');
+    const directorId = prompt('ID del director:'); // puedes mejorar con dropdown después
+    if (!titulo || !directorId) return;
+    window.supabaseClient.from('canciones').insert([{ titulo, director_id: directorId }])
+        .then(() => cargarMusicas());
+});
