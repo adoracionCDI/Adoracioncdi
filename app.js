@@ -5,8 +5,8 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 // --- Variables globales ---
 let rolUsuario = null;
-let ultimaSeccion = null; // 'directores' o 'musicas'
-let editarObjeto = null;  // objeto que se está editando
+let ultimaSeccion = null;
+let editarObjeto = null;
 
 // --- Iniciar según rol ---
 function iniciar(rol) {
@@ -38,19 +38,13 @@ async function cargarDirectores() {
     const lista = document.getElementById('lista-directores');
     lista.innerHTML = '';
 
-    if (error) {
-        lista.innerHTML = `<li>Error cargando directores: ${error.message}</li>`;
-        return;
-    }
+    if (error) return lista.innerHTML = `<li>Error: ${error.message}</li>`;
 
     data.forEach(director => {
         const li = document.createElement('li');
-        const span = document.createElement('span');
-        span.textContent = director.nombre;
-        li.appendChild(span);
+        li.textContent = director.nombre;
         li.dataset.id = director.id;
 
-        // Al hacer click en un director, filtra músicas
         li.addEventListener('click', () => cargarMusicas(director.id));
 
         if (rolUsuario === 'director') {
@@ -87,18 +81,23 @@ async function cargarMusicas(directorId = null) {
     const lista = document.getElementById('lista-musicas');
     lista.innerHTML = '';
 
-    if (error) {
-        lista.innerHTML = `<li>Error cargando músicas: ${error.message}</li>`;
-        return;
-    }
-
-    if (data.length === 0) {
-        lista.innerHTML = '<li>No hay músicas disponibles</li>';
-        return;
-    }
+    if (error) return lista.innerHTML = `<li>Error: ${error.message}</li>`;
+    if (data.length === 0) return lista.innerHTML = '<li>No hay músicas disponibles</li>';
 
     data.forEach(musica => {
         const li = document.createElement('li');
+
+        // Imagen del acorde
+        if (musica.acorde_url) {
+            const img = document.createElement('img');
+            img.src = musica.acorde_url;
+            img.alt = 'Acorde';
+            img.style.width = '50px';
+            img.style.height = '50px';
+            img.style.marginRight = '10px';
+            li.appendChild(img);
+        }
+
         const span = document.createElement('span');
         span.textContent = musica.titulo;
         li.appendChild(span);
@@ -140,20 +139,24 @@ async function abrirFormulario(tabla, objeto = null, crearNuevo = false) {
 
     const input = document.getElementById('input-nombre');
     const select = document.getElementById('select-director');
+    const fileInput = document.getElementById('input-acorde');
 
     if (tabla === 'directores') {
         input.value = objeto && !crearNuevo ? objeto.nombre : '';
         select.style.display = 'none';
+        fileInput.style.display = 'none';
     } else if (tabla === 'musicas') {
-        input.value = ''; // ✅ Siempre vacío para escribir el tema
+        input.value = ''; // vacío para escribir título
         select.style.display = 'inline-block';
+        fileInput.style.display = 'inline-block';
+        fileInput.value = ''; // limpiar cualquier archivo previo
 
-        // Cargar directores en select
+        // Cargar directores
         const { data: directores } = await supabaseClient.from('directores').select('*');
         select.innerHTML = '';
         directores.forEach(d => {
             const option = document.createElement('option');
-            option.value = d.id; // UUID
+            option.value = d.id;
             option.textContent = d.nombre;
             select.appendChild(option);
         });
@@ -163,9 +166,27 @@ async function abrirFormulario(tabla, objeto = null, crearNuevo = false) {
 // --- Guardar cambios ---
 document.getElementById('btn-guardar').addEventListener('click', async () => {
     const input = document.getElementById('input-nombre').value.trim();
-    const select = document.getElementById('select-director').value; // UUID string
+    const select = document.getElementById('select-director').value;
+    const fileInput = document.getElementById('input-acorde');
 
     if (!input) return alert('Debe ingresar un valor');
+
+    let acordeUrl = editarObjeto ? editarObjeto.acorde_url : null;
+
+    // Subir imagen si hay
+    if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const fileName = `${Date.now()}_${file.name}`;
+        const { data, error } = await supabaseClient
+            .storage.from('musicas-acordes')
+            .upload(fileName, file);
+
+        if (error) return alert('Error subiendo la imagen: ' + error.message);
+
+        // Obtener URL pública
+        const { publicUrl } = supabaseClient.storage.from('musicas-acordes').getPublicUrl(fileName);
+        acordeUrl = publicUrl;
+    }
 
     if (ultimaSeccion === 'directores') {
         if (editarObjeto) {
@@ -178,14 +199,14 @@ document.getElementById('btn-guardar').addEventListener('click', async () => {
         }
         cargarDirectores();
     } else if (ultimaSeccion === 'musicas') {
-        const directorId = select; // UUID
+        const directorId = select;
         if (editarObjeto) {
             await supabaseClient.from('musicas')
-                .update({ titulo: input, director_id: directorId })
+                .update({ titulo: input, director_id: directorId, acorde_url: acordeUrl })
                 .eq('id', editarObjeto.id);
         } else {
             await supabaseClient.from('musicas')
-                .insert([{ titulo: input, director_id: directorId }]);
+                .insert([{ titulo: input, director_id: directorId, acorde_url: acordeUrl }]);
         }
         cargarMusicas();
     }
