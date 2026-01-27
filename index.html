@@ -13,7 +13,7 @@
             padding: 20px;
         }
 
-        h1 {
+        h1, h2 {
             text-align: center;
         }
 
@@ -42,31 +42,60 @@
         li:hover {
             background: #f0f0f0;
         }
+
+        button {
+            padding: 5px 10px;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+        #pantalla-inicio {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #app {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
-    <h1>🎶 Gestión de Alabanza</h1>
+    <!-- Pantalla de inicio para elegir rol -->
+    <div id="pantalla-inicio">
+        <h1>🎶 Gestión de Alabanza</h1>
+        <p>Elige tu rol:</p>
+        <button onclick="iniciar('director')">Director</button>
+        <button onclick="iniciar('musico')">Músico</button>
+    </div>
 
-    <section>
-        <h2>👤 Directores</h2>
-        <ul id="lista-directores">
-            <li>Cargando directores...</li>
-        </ul>
-    </section>
+    <!-- Aplicación principal -->
+    <div id="app">
+        <section>
+            <h2>👤 Directores</h2>
+            <ul id="lista-directores">
+                <li>Cargando directores...</li>
+            </ul>
+            <button id="btn-agregar-director" style="display:none;">Agregar Director</button>
+        </section>
 
-    <section>
-        <h2>🎵 Músicas</h2>
-        <ul id="lista-musicas">
-            <li>Cargando músicas...</li>
-        </ul>
-    </section>
+        <section>
+            <h2>🎵 Músicas</h2>
+            <ul id="lista-musicas">
+                <li>Cargando músicas...</li>
+            </ul>
+            <button id="btn-agregar-musica" style="display:none;">Agregar Música</button>
+        </section>
+    </div>
 
     <!-- SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Tu JS -->
+    <!-- JS -->
     <script src="app.js"></script>
-
 </body>
 </html>
+
