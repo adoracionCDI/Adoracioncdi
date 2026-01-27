@@ -29,6 +29,11 @@ function regresar() {
     document.getElementById('seccion-directores').style.display = 'block';
     document.getElementById('seccion-musicas').style.display = 'block';
     document.getElementById('btn-atras').style.display = 'none';
+
+    // Limpiar preview
+    const preview = document.getElementById('preview-acorde');
+    preview.src = '';
+    preview.style.display = 'none';
 }
 
 // --- Cargar directores ---
@@ -51,7 +56,7 @@ async function cargarDirectores() {
             const btnEditar = document.createElement('button');
             btnEditar.textContent = 'Editar';
             btnEditar.className = 'secondary';
-            btnEditar.onclick = (e) => { e.stopPropagation(); abrirFormulario('directores', director); };
+            btnEditar.onclick = (e) => { e.stopPropagation(); abrirFormulario('directores', director, false); };
 
             const btnEliminar = document.createElement('button');
             btnEliminar.textContent = 'Eliminar';
@@ -88,6 +93,7 @@ async function cargarMusicas(directorId = null) {
         const li = document.createElement('li');
         li.className = 'tarjeta';
 
+        // Imagen del acorde
         if (musica.acorde_url) {
             const img = document.createElement('img');
             img.src = musica.acorde_url;
@@ -103,11 +109,20 @@ async function cargarMusicas(directorId = null) {
         span.textContent = musica.titulo;
         li.appendChild(span);
 
+        // Mostrar imagen al tocar la música
+        li.addEventListener('click', () => {
+            const preview = document.getElementById('preview-acorde');
+            if (musica.acorde_url) {
+                preview.src = musica.acorde_url;
+                preview.style.display = 'block';
+            }
+        });
+
         if (rolUsuario === 'director') {
             const btnEditar = document.createElement('button');
             btnEditar.textContent = 'Editar';
             btnEditar.className = 'secondary';
-            btnEditar.onclick = (e) => { e.stopPropagation(); abrirFormulario('musicas', musica); };
+            btnEditar.onclick = (e) => { e.stopPropagation(); abrirFormulario('musicas', musica, false); };
 
             const btnEliminar = document.createElement('button');
             btnEliminar.textContent = 'Eliminar';
