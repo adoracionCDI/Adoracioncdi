@@ -1,3 +1,4 @@
+
 // --- Conexión Supabase ---
 const supabaseUrl = 'https://atmflikzjdhwnssjsxhn.supabase.co';
 const supabaseKey = 'sb_publishable_Zzdtdqy9KNl6wqy49JJehg_nxPcGyfF';
@@ -109,15 +110,19 @@ async function cargarMusicas(directorId = null) {
         span.textContent = musica.titulo;
         li.appendChild(span);
 
-        // Mostrar imagen al tocar la música
+        // Mostrar imagen al tocar la música (Director y Músico)
         li.addEventListener('click', () => {
             const preview = document.getElementById('preview-acorde');
             if (musica.acorde_url) {
                 preview.src = musica.acorde_url;
                 preview.style.display = 'block';
+            } else {
+                preview.src = '';
+                preview.style.display = 'none';
             }
         });
 
+        // Botones solo para Directores
         if (rolUsuario === 'director') {
             const btnEditar = document.createElement('button');
             btnEditar.textContent = 'Editar';
@@ -206,7 +211,6 @@ document.getElementById('btn-guardar').addEventListener('click', async () => {
     const input = document.getElementById('input-nombre').value.trim();
     const select = document.getElementById('select-director').value;
     const fileInput = document.getElementById('input-acorde');
-    const preview = document.getElementById('preview-acorde');
 
     if (!input) return alert('Debe ingresar un valor');
 
