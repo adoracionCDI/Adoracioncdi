@@ -2,7 +2,7 @@ console.log('app.js cargado');
 
 async function probarSupabase() {
   const { data, error } = await supabaseClient
-    .from('canciones')
+    .from('musicas')   // <-- tabla correcta
     .select('*');
 
   if (error) {
@@ -10,7 +10,7 @@ async function probarSupabase() {
     return;
   }
 
-  console.log('Canciones desde Supabase:', data);
+  console.log('Musicas desde Supabase:', data);
 }
 
 probarSupabase();
@@ -19,7 +19,7 @@ document.getElementById('director').addEventListener('change', async (e) => {
   const director = e.target.value;
 
   const { data, error } = await supabaseClient
-    .from('canciones')
+    .from('musicas')  // <-- tabla correcta
     .select('*')
     .eq('director', director);
 
@@ -28,5 +28,5 @@ document.getElementById('director').addEventListener('change', async (e) => {
     return;
   }
 
-  console.log('Canciones del director', director, data);
+  console.log('Musicas del director', director, data);
 });
