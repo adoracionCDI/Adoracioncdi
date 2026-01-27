@@ -2,66 +2,102 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gestión de Alabanza</title>
+    <title>Prueba Música</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body { font-family: Arial; background:#f4f6f8; padding:20px; }
+        h1 { text-align:center; }
+        ul { list-style:none; padding:0; }
+        li { padding:8px; border-bottom:1px solid #ddd; display:flex; align-items:center; }
+        li:last-child { border-bottom:none; }
+        .tarjeta { display:flex; align-items:center; margin-bottom:8px; padding:8px; background:white; border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+        button { margin-left:8px; padding:4px 10px; border:none; border-radius:4px; cursor:pointer; }
+        .primary { background:#4CAF50; color:white; }
+        .secondary { background:#2196F3; color:white; }
+    </style>
 </head>
 <body>
 
-    <!-- Pantalla de inicio (elegir rol) -->
-    <div id="pantalla-inicio" class="centrado">
-        <h1>🎶 Gestión de Alabanza</h1>
-        <button onclick="iniciar('director')" class="primary">Iniciar como Director</button>
-        <button onclick="iniciar('musico')" class="secondary">Iniciar como Músico</button>
-    </div>
+<h1>🎶 Prueba Inserción Música</h1>
 
-    <!-- App principal -->
-    <div id="app" style="display:none;">
-        <header>
-            <h1>🎵 Gestión de Alabanza</h1>
-            <div class="botones-header">
-                <button id="btn-agregar-director" class="primary" style="display:none;">Agregar Director</button>
-                <button id="btn-agregar-musica" class="primary" style="display:none;">Agregar Música</button>
-                <button id="btn-atras" class="secondary" style="display:none;" onclick="regresar()">Atrás</button>
-            </div>
-        </header>
+<section>
+    <h2>👤 Directores</h2>
+    <ul id="lista-directores">
+        <li>Cargando directores...</li>
+    </ul>
+</section>
 
-        <!-- Sección Directores -->
-        <section id="seccion-directores">
-            <h2>👤 Directores</h2>
-            <ul id="lista-directores" class="lista-tarjetas">
-                <li>Cargando directores...</li>
-            </ul>
-        </section>
+<section>
+    <h2>🎵 Músicas</h2>
+    <ul id="lista-musicas">
+        <li>Cargando músicas...</li>
+    </ul>
+</section>
 
-        <!-- Sección Músicas -->
-        <section id="seccion-musicas">
-            <h2>🎼 Músicas</h2>
-            <ul id="lista-musicas" class="lista-tarjetas">
-                <li>Cargando músicas...</li>
-            </ul>
-        </section>
+<button id="btn-prueba" class="primary">Probar insertar música</button>
 
-        <!-- Formulario Crear/Editar -->
-        <section id="formulario" style="display:none;" class="formulario-tarjeta">
-            <h2 id="titulo-formulario">Formulario</h2>
-            <label for="input-nombre">Nombre / Título</label>
-            <input type="text" id="input-nombre" placeholder="Ingrese nombre o título">
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-            <label for="select-director">Director</label>
-            <select id="select-director"></select>
+<script>
+// --- Conexión Supabase ---
+const supabaseUrl = 'https://atmflikzjdhwnssjsxhn.supabase.co';
+const supabaseKey = 'sb_publishable_Zzdtdqy9KNl6wqy49JJehg_nxPcGyfF';
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-            <label for="input-acorde">Acorde (imagen)</label>
-            <input type="file" id="input-acorde" accept="image/*">
+// --- Cargar directores y músicas ---
+async function cargarDirectores() {
+    const { data, error } = await supabaseClient.from('directores').select('*');
+    const lista = document.getElementById('lista-directores');
+    lista.innerHTML = '';
+    if (error) return lista.innerHTML = `<li>Error: ${error.message}</li>`;
+    data.forEach(d => {
+        const li = document.createElement('li');
+        li.textContent = d.nombre + ` (${d.id})`;
+        li.className = 'tarjeta';
+        lista.appendChild(li);
+    });
+}
 
-            <!-- Previsualización de la imagen -->
-            <img id="preview-acorde" src="" alt="Vista previa del acorde" style="display:none; width:100px; margin-top:10px; border-radius:4px;">
+async function cargarMusicas() {
+    const { data, error } = await supabaseClient.from('musicas').select('*');
+    const lista = document.getElementById('lista-musicas');
+    lista.innerHTML = '';
+    if (error) return lista.innerHTML = `<li>Error: ${error.message}</li>`;
+    if (data.length === 0) return lista.innerHTML = '<li>No hay músicas</li>';
+    data.forEach(m => {
+        const li = document.createElement('li');
+        li.className = 'tarjeta';
+        li.textContent = m.titulo + (m.acorde_url ? ' 🎹' : '');
+        lista.appendChild(li);
+    });
+}
 
-            <button id="btn-guardar" class="primary">Guardar</button>
-        </section>
-    </div>
+// --- Función de prueba insert ---
+async function pruebaInsertMusica() {
+    const { data, error } = await supabaseClient.from('musicas').insert([{
+        titulo: 'Canción de prueba',
+        director_id: '5b772b19-cd03-41b0-afe5-24b7d2c52a6e',
+        acorde_url: null
+    }]);
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="app.js"></script>
+    if (error) {
+        alert('❌ Error insertando música: ' + error.message);
+        console.error(error);
+    } else {
+        alert('✅ Música insertada correctamente!');
+        console.log(data);
+        cargarMusicas();
+    }
+}
+
+// --- Botón prueba ---
+document.getElementById('btn-prueba').addEventListener('click', pruebaInsertMusica);
+
+// --- Inicializar ---
+cargarDirectores();
+cargarMusicas();
+</script>
+
 </body>
 </html>
