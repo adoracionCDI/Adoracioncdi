@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestión de Alabanza</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
 </head>
 <body>
 
@@ -21,36 +23,23 @@
   <!-- ================= ADMINISTRADOR ================= -->
   <section id="administrador" class="oculto">
     <h1>Panel Administrador</h1>
-    <p>Aquí podés agregar y ver toda la música</p>
+
+    <!-- Formulario para agregar/modificar director -->
+    <div>
+      <input type="hidden" id="idDirectorEditar">
+      <input type="text" id="nombreDirector" placeholder="Nombre del director">
+      <button id="guardarDirector">Guardar</button>
+      <button id="cancelarEdicion" style="display:none;">Cancelar</button>
+    </div>
+
+    <hr>
+
+    <h2>Lista de Directores</h2>
+    <ul id="listaDirectores"></ul>
+
     <div>
       <button id="volverInicioAdmin">Volver</button>
     </div>
-    <ul id="listaMusicasAdmin"></ul>
-  </section>
-
-  <!-- ================= DIRECTOR ================= -->
-  <section id="director" class="oculto">
-    <h1>Panel Director</h1>
-    <label for="filtroDirector">Filtrar por director:</label>
-    <select id="filtroDirector">
-      <option value="">-- Todos --</option>
-      <option value="oscar">Oscar</option>
-      <option value="luis">Luis</option>
-    </select>
-    <div>
-      <button id="volverInicioDirector">Volver</button>
-    </div>
-    <ul id="listaMusicasDirector"></ul>
-  </section>
-
-  <!-- ================= MÚSICO ================= -->
-  <section id="musico" class="oculto">
-    <h1>Panel Músico</h1>
-    <p>Solo podés ver la lista de música y acordes</p>
-    <div>
-      <button id="volverInicioMusico">Volver</button>
-    </div>
-    <ul id="listaMusicasMusico"></ul>
   </section>
 
   <script src="js/main.js"></script>
