@@ -3,18 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ADORACION CDI</title>
+  <title>Gestión de Alabanza</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <h1>Adoración Cordero de Dios Itá</h1>
+  <!-- ================= INICIO ================= -->
+  <section id="inicio">
+    <h1>Bienvenido a la Gestión de Alabanza</h1>
+    <div class="roles">
+      <button class="role-btn" data-role="administrador">Administrador</button>
+      <button class="role-btn" data-role="director">Director</button>
+      <button class="role-btn" data-role="musico">Músico</button>
+    </div>
+  </section>
 
-  <div class="roles">
-    <button class="role-btn" data-role="administrador">Administrador</button>
-    <button class="role-btn" data-role="director">Director</button>
-    <button class="role-btn" data-role="musico">Músico</button>
-  </div>
+  <!-- ================= ADMINISTRADOR ================= -->
+  <section id="administrador" class="oculto">
+    <h1>Panel Administrador</h1>
+    <p>Aquí podés agregar y ver toda la música</p>
+    <div>
+      <button id="volverInicioAdmin">Volver</button>
+    </div>
+    <ul id="listaMusicasAdmin"></ul>
+  </section>
+
+  <!-- ================= DIRECTOR ================= -->
+  <section id="director" class="oculto">
+    <h1>Panel Director</h1>
+    <label for="filtroDirector">Filtrar por director:</label>
+    <select id="filtroDirector">
+      <option value="">-- Todos --</option>
+      <option value="oscar">Oscar</option>
+      <option value="luis">Luis</option>
+    </select>
+    <div>
+      <button id="volverInicioDirector">Volver</button>
+    </div>
+    <ul id="listaMusicasDirector"></ul>
+  </section>
+
+  <!-- ================= MÚSICO ================= -->
+  <section id="musico" class="oculto">
+    <h1>Panel Músico</h1>
+    <p>Solo podés ver la lista de música y acordes</p>
+    <div>
+      <button id="volverInicioMusico">Volver</button>
+    </div>
+    <ul id="listaMusicasMusico"></ul>
+  </section>
 
   <script src="js/main.js"></script>
 </body>
