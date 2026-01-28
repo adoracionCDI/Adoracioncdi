@@ -1,5 +1,6 @@
 /* Reset y colores neutros */
 * { margin:0; padding:0; box-sizing:border-box; }
+
 body {
   font-family: Arial, sans-serif;
   background: #cce7ff;
@@ -8,16 +9,29 @@ body {
   padding: 20px;
   color: #03396c;
 }
+
 h1 { font-size:2rem; margin-bottom:20px; }
+
 .roles { display:flex; flex-direction:column; gap:15px; max-width:350px; margin:auto; }
+
 .role-btn {
   padding:18px; font-size:1.2rem; font-weight:bold;
   border:none; border-radius:10px; cursor:pointer;
   transition:0.3s; background:#66b2ff; color:#fff;
 }
 .role-btn:hover { background:#3399ff; transform:translateY(-2px); }
+
 .oculto { display:none; } /* Secciones ocultas */
+
 ul { list-style:none; padding:0; margin-top:20px; }
 li { background:#fff; padding:10px; border-radius:6px; margin-bottom:8px; color:#03396c; }
+
 button { cursor:pointer; margin-top:10px; }
-@media(max-width:500px){h1{font-size:1.6rem;} .role-btn{padding:14px; font-size:1rem;}}
+
+input[type="text"] { padding:10px; width:60%; margin-right:10px; border-radius:6px; border:1px solid #999; }
+
+@media(max-width:500px){
+  h1{font-size:1.6rem;} 
+  .role-btn{padding:14px; font-size:1rem;} 
+  input[type="text"]{width:100%; margin-bottom:10px;}
+}
