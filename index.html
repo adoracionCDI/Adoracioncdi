@@ -23,37 +23,39 @@
     </div>
   </section>
 
-  <!-- ================= ADMINISTRADOR ================= -->
-  <section id="administrador" class="oculto">
-    <h1>Panel Administrador</h1>
+ <!-- ================= ADMINISTRADOR ================= -->
+<section id="administrador" class="oculto">
+  <h1>Panel Administrador</h1>
 
-    <!-- Formulario para agregar director -->
-    <div class="form-agregar">
-      <input type="text" id="nombreDirector" placeholder="Nombre del director">
-      <button id="agregarDirector">Agregar</button>
-    </div>
+  <!-- Formulario para agregar director -->
+  <div class="form-agregar">
+    <input type="text" id="nombreDirector" placeholder="Nombre del director">
+    <button id="agregarDirector">Agregar</button>
+  </div>
 
-    <hr>
+  <hr>
 
-    <h2>Lista de Directores</h2>
-    <ul id="listaDirectores"></ul>
+  <h2>Lista de Directores</h2>
+  <ul id="listaDirectores"></ul>
 
-    <div>
-      <button id="volverInicioAdmin">Volver</button>
-    </div>
+  <div>
+    <button id="volverInicioAdmin">Volver</button>
+  </div>
 
-    <!-- Modal para editar director -->
-    <div id="modalEditar" class="modal oculto">
-      <div class="modal-contenido">
-        <h3>Editar Director</h3>
-        <input type="text" id="nombreEditar">
-        <div class="modal-botones">
-          <button id="guardarEditar">Guardar</button>
-          <button id="cerrarModal">Cancelar</button>
-        </div>
+  <!-- Modal para editar director -->
+  <div id="modalEditar" class="modal oculto">
+    <div class="modal-contenido">
+      <h3>Editar Director</h3>
+      <p id="nombreActualModal">Nombre actual: </p>
+      <input type="text" id="nombreEditar" placeholder="Nuevo nombre">
+      <div class="modal-botones">
+        <button id="guardarEditar">Guardar</button>
+        <button id="cerrarModal">Cancelar</button>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- ================= DIRECTOR ================= -->
   <section id="director" class="oculto">
