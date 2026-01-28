@@ -1,109 +1,90 @@
-/* ---------- GENERAL ---------- */
-body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: #e6f2ff;
-  color: #022f40;
-  text-align: center;
-  padding: 20px;
-}
-h1 { font-size: 2rem; margin-bottom: 20px; }
-h2 { margin-top: 20px; }
+* { box-sizing: border-box; }
 
-/* ---------- BOTONES ROL ---------- */
-.roles {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-width: 300px;
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #eef6ff;
+  color: #023047;
+}
+
+header {
+  background: #219ebc;
+  color: white;
+  padding: 18px;
+  text-align: center;
+}
+
+main {
+  padding: 15px;
+  max-width: 900px;
   margin: auto;
 }
-.role-btn {
+
+.card {
+  background: white;
   padding: 18px;
-  font-size: 1.2rem;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  box-shadow: 0 8px 18px rgba(0,0,0,.12);
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.grid {
+  display: grid;
+  gap: 10px;
+}
+
+input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 12px;
+  border-radius: 8px;
   border: none;
-  border-radius: 12px;
+  background: #219ebc;
+  color: white;
+  font-weight: bold;
   cursor: pointer;
-  background: #3399ff;
-  color: #fff;
-  transition: 0.3s;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-.role-btn:hover { background:#0277bd; transform: translateY(-2px); }
-
-/* ---------- PANEL ---------- */
-.panel {
-  background:#fff;
-  border-radius:12px;
-  padding:20px;
-  margin:20px auto;
-  max-width:600px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.15);
-  text-align:left;
 }
 
-/* LISTAS */
-.lista-panel {
-  list-style:none;
-  padding:0;
-  margin:10px 0;
+button:hover { background:#1a7fa0; }
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 12px;
 }
-.lista-panel li {
-  display:flex;
+
+li {
+  background: #f1faff;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  display: flex;
   justify-content: space-between;
-  align-items:center;
-  padding:10px 12px;
-  border-radius:8px;
-  margin-bottom:8px;
-  background:#f0f8ff;
-  box-shadow:0 2px 4px rgba(0,0,0,0.1);
-}
-.lista-panel li span {
-  flex:1;
+  align-items: center;
 }
 
-/* BOTONES */
-.lista-panel li button {
-  margin-left:5px;
-  padding:5px 10px;
-  border-radius:6px;
-  border:none;
-  font-size:0.9rem;
-  cursor:pointer;
-}
-.lista-panel li button.editar { background:#ffb74d; color:#fff; }
-.lista-panel li button.editar:hover { background:#ffa726; }
-.lista-panel li button.borrar { background:#e57373; color:#fff; }
-.lista-panel li button.borrar:hover { background:#ef5350; }
-
-/* FORMULARIO AGREGAR DIRECTOR */
-.form-agregar, .form-agregar-cancion {
-  display:flex;
-  flex-wrap: wrap;
-  gap:10px;
-  margin-bottom:20px;
-}
-.form-agregar input, .form-agregar-cancion input {
-  flex:1;
-  min-width:120px;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #999;
-}
-.form-agregar button, .form-agregar-cancion button {
-  padding:10px 20px;
-  border-radius:8px;
-  border:none;
-  cursor:pointer;
-  font-weight:bold;
-  background:#0288d1;
-  color:#fff;
-}
-.form-agregar button:hover, .form-agregar-cancion button:hover {
-  background:#0277bd;
+.actions button {
+  margin-left: 6px;
+  background: #8ecae6;
 }
 
-/* Responsive */
-@media(max-width:600px){
-  .form-agregar, .form-agregar-cancion { flex-direction:column; }
-  .form-agregar input, .form-agregar-cancion input { width:100%; }
+.actions button:last-child {
+  background: #e63946;
 }
+
+.actions a {
+  text-decoration: none;
+  font-size: 18px;
+  margin-right: 6px;
+}
+
+.oculto { display:none; }
