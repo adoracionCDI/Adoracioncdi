@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestión de Alabanza</title>
+  <title>Adoración CDI</title>
+
+  <!-- CSS separado -->
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
 </head>
@@ -12,7 +16,7 @@
 
   <!-- ================= INICIO ================= -->
   <section id="inicio">
-    <h1>Bienvenido a la Gestión de Alabanza</h1>
+    <h1>ALABANZA CDI</h1>
     <div class="roles">
       <button class="role-btn" data-role="administrador">Administrador</button>
       <button class="role-btn" data-role="director">Director</button>
@@ -24,12 +28,10 @@
   <section id="administrador" class="oculto">
     <h1>Panel Administrador</h1>
 
-    <!-- Formulario para agregar/modificar director -->
-    <div>
-      <input type="hidden" id="idDirectorEditar">
+    <!-- Formulario para agregar director -->
+    <div class="form-agregar">
       <input type="text" id="nombreDirector" placeholder="Nombre del director">
-      <button id="guardarDirector">Guardar</button>
-      <button id="cancelarEdicion" style="display:none;">Cancelar</button>
+      <button id="agregarDirector">Agregar</button>
     </div>
 
     <hr>
@@ -40,8 +42,39 @@
     <div>
       <button id="volverInicioAdmin">Volver</button>
     </div>
+
+    <!-- Modal para editar director -->
+    <div id="modalEditar" class="modal oculto">
+      <div class="modal-contenido">
+        <h3>Editar Director</h3>
+        <input type="text" id="nombreEditar">
+        <div class="modal-botones">
+          <button id="guardarEditar">Guardar</button>
+          <button id="cerrarModal">Cancelar</button>
+        </div>
+      </div>
+    </div>
   </section>
 
+  <!-- ================= DIRECTOR ================= -->
+  <section id="director" class="oculto">
+    <h1>Panel Director</h1>
+    <p>Sección para mostrar músicas filtradas por director (pendiente de implementar)</p>
+    <div>
+      <button id="volverInicioDirector">Volver</button>
+    </div>
+  </section>
+
+  <!-- ================= MÚSICO ================= -->
+  <section id="musico" class="oculto">
+    <h1>Panel Músico</h1>
+    <p>Sección para mostrar lista de músicas y acordes (pendiente de implementar)</p>
+    <div>
+      <button id="volverInicioMusico">Volver</button>
+    </div>
+  </section>
+
+  <!-- JS principal -->
   <script src="js/main.js"></script>
 </body>
 </html>
