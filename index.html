@@ -2,64 +2,52 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <title>Administrador - Alabanza</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel Administrador - Gestión de Alabanza</title>
 
-  <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
 
-  <!-- Supabase -->
+  <!-- SUPABASE (YA EXISTE) -->
   <script src="js/supabase.js"></script>
 </head>
 <body>
 
-  <!-- ================= INICIO ================= -->
-  <section id="inicio">
-    <h1>Bienvenido a la Gestión de Alabanza</h1>
-    <div class="roles">
-      <button class="role-btn" data-role="administrador">Administrador</button>
-      <button class="role-btn" data-role="director">Director</button>
-      <button class="role-btn" data-role="musico">Músico</button>
+<header>
+  <h1>Administrador</h1>
+</header>
+
+<main>
+
+  <!-- ===== DIRECTORES ===== -->
+  <section class="card">
+    <h2>Directores</h2>
+
+    <div class="row">
+      <input id="nuevoDirector" placeholder="Nombre del director">
+      <button onclick="agregarDirector()">Agregar</button>
     </div>
+
+    <ul id="listaDirectores"></ul>
   </section>
 
-  <!-- ================= ADMINISTRADOR ================= -->
-  <section id="administrador" class="oculto">
-    <h1>Panel Administrador</h1>
+  <!-- ===== MÚSICAS ===== -->
+  <section class="card oculto" id="seccionMusicas">
+    <h2 id="tituloDirector"></h2>
 
-    <!-- FORMULARIO AGREGAR DIRECTOR -->
-    <div class="form-agregar">
-      <input type="text" id="nombreDirector" placeholder="Nombre del director">
-      <button id="agregarDirector">Agregar</button>
+    <div class="grid">
+      <input id="titulo" placeholder="Título de la canción">
+      <input id="tonalidad" placeholder="Tonalidad">
+      <input id="empieza" placeholder="Quién empieza (batería, voces…)">
+      <input type="file" id="imagen">
     </div>
 
-    <!-- LISTA DE DIRECTORES -->
-    <div class="panel">
-      <h2>Directores</h2>
-      <ul id="listaDirectores" class="lista-panel"></ul>
-    </div>
+    <button onclick="agregarMusica()">Agregar Música</button>
 
-    <!-- LISTA DE CANCIONES -->
-    <div class="panel">
-      <h2>Canciones del Director</h2>
-      <ul id="listaCanciones" class="lista-panel"></ul>
-
-      <!-- FORMULARIO AGREGAR CANCION -->
-      <div class="form-agregar-cancion">
-        <input type="text" id="tituloCancion" placeholder="Título">
-        <input type="text" id="tonalidadCancion" placeholder="Tonalidad">
-        <input type="text" id="iniciaCancion" placeholder="Quién empieza">
-        <input type="file" id="imagenCancion" accept="image/*">
-        <button id="agregarCancion">Agregar Canción</button>
-      </div>
-    </div>
-
-    <div>
-      <button id="volverInicioAdmin">Volver</button>
-    </div>
+    <ul id="listaMusicas"></ul>
   </section>
 
-  <!-- JS -->
-  <script src="js/main.js"></script>
+</main>
+
+<script src="js/app.js"></script>
 </body>
 </html>
