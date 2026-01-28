@@ -1,34 +1,4 @@
-// ----------------- SECCIONES -----------------
-const inicio = document.getElementById('inicio');
-const administrador = document.getElementById('administrador');
-const director = document.getElementById('director');
-const musico = document.getElementById('musico');
-
-const roleButtons = document.querySelectorAll('.role-btn');
-roleButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const rol = btn.getAttribute('data-role');
-    localStorage.setItem('rolUsuario', rol);
-    inicio.classList.add('oculto');
-
-    if (rol === 'administrador') administrador.classList.remove('oculto');
-    if (rol === 'director') director.classList.remove('oculto');
-    if (rol === 'musico') musico.classList.remove('oculto');
-  });
-});
-
-// Botones volver
-document.getElementById('volverInicioAdmin').addEventListener('click', () => {
-  administrador.classList.add('oculto'); inicio.classList.remove('oculto');
-});
-document.getElementById('volverInicioDirector').addEventListener('click', () => {
-  director.classList.add('oculto'); inicio.classList.remove('oculto');
-});
-document.getElementById('volverInicioMusico').addEventListener('click', () => {
-  musico.classList.add('oculto'); inicio.classList.remove('oculto');
-});
-
-// ----------------- ADMINISTRADOR -----------------
+// ---------- ADMINISTRADOR ----------
 const listaDirectores = document.getElementById('listaDirectores');
 const nombreDirectorInput = document.getElementById('nombreDirector');
 const agregarDirectorBtn = document.getElementById('agregarDirector');
@@ -36,18 +6,18 @@ const agregarDirectorBtn = document.getElementById('agregarDirector');
 // Modal
 const modal = document.getElementById('modalEditar');
 const nombreEditarInput = document.getElementById('nombreEditar');
+const nombreActualModal = document.getElementById('nombreActualModal');
 const guardarEditarBtn = document.getElementById('guardarEditar');
 const cerrarModalBtn = document.getElementById('cerrarModal');
 
 let idEditarActual = null;
 
-// Funciones de ejemplo (sin Supabase aún)
+// Función para cargar directores (ejemplo)
 function cargarDirectores() {
-  // Aquí deberías traer desde Supabase
-  // Por ahora ejemplo estático
   const directoresEjemplo = [
-    { id: 1, nombre: 'Oscar' },
-    { id: 2, nombre: 'Luis' }
+    { id: 1, nombre: 'Alma' },
+    { id: 2, nombre: 'Oscar' },
+    { id: 3, nombre: 'Luis' }
   ];
 
   listaDirectores.innerHTML = '';
@@ -60,6 +30,7 @@ function cargarDirectores() {
     btnEditar.addEventListener('click', () => {
       idEditarActual = d.id;
       nombreEditarInput.value = d.nombre;
+      nombreActualModal.textContent = `Nombre actual: ${d.nombre}`;
       modal.classList.remove('oculto');
     });
 
@@ -93,13 +64,10 @@ guardarEditarBtn.addEventListener('click', () => {
   cargarDirectores();
 });
 
-// Cerrar modal sin guardar
-cerrarModalBtn.addEventListener('click', () => {
-  modal.classList.add('oculto');
-});
+// Cerrar modal
+cerrarModalBtn.addEventListener('click', () => modal.classList.add('oculto'));
 
-// Cargar directores al abrir Administrador
+// Cargar lista al abrir Administrador
 document.querySelector('.role-btn[data-role="administrador"]').addEventListener('click', () => {
   cargarDirectores();
 });
-
