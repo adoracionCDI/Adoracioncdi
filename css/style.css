@@ -1,96 +1,116 @@
-/* --- Formulario más espacioso --- */
-.form-agregar {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  margin-bottom: 20px;
-  justify-content: center;
-}
+/* Reset y colores neutros */
+* { margin:0; padding:0; box-sizing:border-box; }
 
-.form-agregar input {
-  padding: 10px;
-  flex: 1;
-  border-radius: 6px;
-  border: 1px solid #999;
-  font-size: 1rem;
-}
-
-.form-agregar button {
-  padding: 10px 15px;
-  font-size: 1rem;
-  background: #66b2ff;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.form-agregar button:hover {
-  background: #3399ff;
-}
-
-/* --- Lista más clara --- */
-ul#listaDirectores li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #fff;
+body {
+  font-family: Arial, sans-serif;
+  background: #cce7ff;
+  min-height: 100vh;
+  text-align: center;
+  padding: 20px;
   color: #03396c;
-  padding: 10px;
-  border-radius: 6px;
-  margin-bottom: 8px;
 }
 
+h1 { font-size:2rem; margin-bottom:20px; }
+
+/* Botones rol */
+.roles { display:flex; flex-direction:column; gap:15px; max-width:350px; margin:auto; }
+.role-btn {
+  padding:18px; font-size:1.2rem; font-weight:bold;
+  border:none; border-radius:10px; cursor:pointer;
+  transition:0.3s; background:#66b2ff; color:#fff;
+}
+.role-btn:hover { background:#3399ff; transform:translateY(-2px); }
+
+/* Ocultar secciones */
+.oculto { display:none; }
+
+/* Formulario agregar director */
+.form-agregar {
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:20px;
+}
+.form-agregar input {
+  padding:10px;
+  flex:1;
+  border-radius:6px;
+  border:1px solid #999;
+  font-size:1rem;
+}
+.form-agregar button {
+  padding:10px 15px;
+  font-size:1rem;
+  background:#66b2ff;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+.form-agregar button:hover { background:#3399ff; }
+
+/* Lista de directores */
+ul#listaDirectores li {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#fff;
+  color:#03396c;
+  padding:10px;
+  border-radius:6px;
+  margin-bottom:8px;
+}
 ul#listaDirectores li button {
-  margin-left: 5px;
-  padding: 5px 8px;
-  font-size: 0.9rem;
-  border-radius: 4px;
+  margin-left:5px;
+  padding:5px 8px;
+  font-size:0.9rem;
+  border-radius:4px;
 }
 
-/* --- Modal --- */
+/* Modal */
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top:0; left:0;
+  width:100%;
+  height:100%;
   background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:100;
 }
-
 .modal-contenido {
-  background: #fff;
-  color: #03396c;
-  padding: 20px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
+  background:#fff;
+  color:#03396c;
+  padding:20px;
+  border-radius:10px;
+  width:90%;
+  max-width:400px;
+  text-align:center;
 }
-
 .modal-contenido input {
-  padding: 10px;
-  width: 100%;
-  margin-bottom: 15px;
-  border-radius: 6px;
-  border: 1px solid #999;
+  padding:10px;
+  width:100%;
+  margin-bottom:15px;
+  border-radius:6px;
+  border:1px solid #999;
 }
-
 .modal-botones button {
-  margin: 0 5px;
-  padding: 8px 15px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  margin:0 5px;
+  padding:8px 15px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
 }
-
 .modal-botones button:first-child { background:#66b2ff; color:#fff; }
 .modal-botones button:first-child:hover { background:#3399ff; }
 .modal-botones button:last-child { background:#ccc; color:#03396c; }
 .modal-botones button:last-child:hover { background:#aaa; }
 
-.oculto { display: none; }
+/* Responsive */
+@media(max-width:500px){
+  h1{font-size:1.6rem;} 
+  .role-btn{padding:14px; font-size:1rem;} 
+  .form-agregar{flex-direction:column;}
+  .form-agregar input{width:100%; margin-bottom:10px;}
+}
