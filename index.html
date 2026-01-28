@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestión de Alabanza</title>
+  <title>Panel Administrador - Gestión de Alabanza</title>
 
-  <!-- CSS separado -->
+  <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
 
-  <!-- Supabase ya cargado -->
+  <!-- Supabase -->
   <script src="js/supabase.js"></script>
 </head>
 <body>
@@ -27,54 +27,39 @@
   <section id="administrador" class="oculto">
     <h1>Panel Administrador</h1>
 
-    <!-- Formulario para agregar director -->
+    <!-- FORMULARIO AGREGAR DIRECTOR -->
     <div class="form-agregar">
       <input type="text" id="nombreDirector" placeholder="Nombre del director">
       <button id="agregarDirector">Agregar</button>
     </div>
 
-    <hr>
+    <!-- LISTA DE DIRECTORES -->
+    <div class="panel">
+      <h2>Directores</h2>
+      <ul id="listaDirectores" class="lista-panel"></ul>
+    </div>
 
-    <h2>Lista de Directores</h2>
-    <ul id="listaDirectores"></ul>
+    <!-- LISTA DE CANCIONES -->
+    <div class="panel">
+      <h2>Canciones del Director</h2>
+      <ul id="listaCanciones" class="lista-panel"></ul>
+
+      <!-- FORMULARIO AGREGAR CANCION -->
+      <div class="form-agregar-cancion">
+        <input type="text" id="tituloCancion" placeholder="Título">
+        <input type="text" id="tonalidadCancion" placeholder="Tonalidad">
+        <input type="text" id="iniciaCancion" placeholder="Quién empieza">
+        <input type="file" id="imagenCancion" accept="image/*">
+        <button id="agregarCancion">Agregar Canción</button>
+      </div>
+    </div>
 
     <div>
       <button id="volverInicioAdmin">Volver</button>
     </div>
-
-    <!-- Modal para editar director -->
-    <div id="modalEditar" class="modal oculto">
-      <div class="modal-contenido">
-        <h3>Editar Director</h3>
-        <p id="nombreActualModal">Nombre actual: </p>
-        <input type="text" id="nombreEditar" placeholder="Nuevo nombre">
-        <div class="modal-botones">
-          <button id="guardarEditar">Guardar</button>
-          <button id="cerrarModal">Cancelar</button>
-        </div>
-      </div>
-    </div>
   </section>
 
-  <!-- ================= DIRECTOR ================= -->
-  <section id="director" class="oculto">
-    <h1>Panel Director</h1>
-    <p>Sección para mostrar músicas filtradas por director (pendiente de implementar)</p>
-    <div>
-      <button id="volverInicioDirector">Volver</button>
-    </div>
-  </section>
-
-  <!-- ================= MÚSICO ================= -->
-  <section id="musico" class="oculto">
-    <h1>Panel Músico</h1>
-    <p>Sección para mostrar lista de músicas y acordes (pendiente de implementar)</p>
-    <div>
-      <button id="volverInicioMusico">Volver</button>
-    </div>
-  </section>
-
-  <!-- JS principal -->
+  <!-- JS -->
   <script src="js/main.js"></script>
 </body>
 </html>
