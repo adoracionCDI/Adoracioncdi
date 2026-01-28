@@ -1,12 +1,11 @@
 /* ---------- GENERAL ---------- */
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
-  background: #e0f0ff;
+  background: #e6f2ff;
   color: #022f40;
   text-align: center;
   padding: 20px;
 }
-
 h1 { font-size: 2rem; margin-bottom: 20px; }
 h2 { margin-top: 20px; }
 
@@ -15,131 +14,96 @@ h2 { margin-top: 20px; }
   display: flex;
   flex-direction: column;
   gap: 15px;
-  max-width: 350px;
+  max-width: 300px;
   margin: auto;
 }
 .role-btn {
   padding: 18px;
   font-size: 1.2rem;
-  font-weight: bold;
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: 0.3s;
-  background: #66b2ff;
+  background: #3399ff;
   color: #fff;
+  transition: 0.3s;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
-.role-btn:hover { background: #3399ff; transform: translateY(-2px); }
+.role-btn:hover { background:#0277bd; transform: translateY(-2px); }
 
-/* ---------- FORMULARIO AGREGAR DIRECTOR ---------- */
-.form-agregar {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+/* ---------- PANEL ---------- */
+.panel {
+  background:#fff;
+  border-radius:12px;
+  padding:20px;
+  margin:20px auto;
+  max-width:600px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  text-align:left;
 }
-.form-agregar input {
-  padding: 12px;
-  flex: 1;
-  min-width: 150px;
-  border-radius: 8px;
-  border: 1px solid #999;
-  font-size: 1rem;
-}
-.form-agregar button {
-  padding: 12px 20px;
-  font-size: 1rem;
-  background: #0288d1;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-.form-agregar button:hover { background: #0277bd; }
 
-/* ---------- LISTA DIRECTORES ---------- */
-ul#listaDirectores li {
-  display: flex;
+/* LISTAS */
+.lista-panel {
+  list-style:none;
+  padding:0;
+  margin:10px 0;
+}
+.lista-panel li {
+  display:flex;
   justify-content: space-between;
-  align-items: center;
-  background: #fff;
-  padding: 12px 15px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  align-items:center;
+  padding:10px 12px;
+  border-radius:8px;
+  margin-bottom:8px;
+  background:#f0f8ff;
+  box-shadow:0 2px 4px rgba(0,0,0,0.1);
 }
-ul#listaDirectores li button {
-  margin-left: 8px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: none;
-  font-size: 0.9rem;
-  cursor: pointer;
+.lista-panel li span {
+  flex:1;
 }
-ul#listaDirectores li button:first-child { background:#ffb74d; color:#fff; }
-ul#listaDirectores li button:first-child:hover { background:#ffa726; }
-ul#listaDirectores li button:last-child { background:#e57373; color:#fff; }
-ul#listaDirectores li button:last-child:hover { background:#ef5350; }
 
-/* ---------- MODAL ---------- */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-  animation: fadeIn 0.2s ease-in-out;
+/* BOTONES */
+.lista-panel li button {
+  margin-left:5px;
+  padding:5px 10px;
+  border-radius:6px;
+  border:none;
+  font-size:0.9rem;
+  cursor:pointer;
 }
-.modal-contenido {
-  background: #fff;
-  color: #022f40;
-  padding: 25px 20px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  animation: slideDown 0.3s ease-out;
-}
-.modal-contenido h3 { margin-bottom: 10px; }
-.modal-contenido p { margin-bottom: 15px; font-weight: bold; }
-.modal-contenido input {
-  padding: 12px;
-  width: 100%;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  border: 1px solid #999;
-  font-size: 1rem;
-}
-.modal-botones button {
-  margin: 0 5px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-}
-.modal-botones button:first-child { background:#0288d1; color:#fff; }
-.modal-botones button:first-child:hover { background:#0277bd; }
-.modal-botones button:last-child { background:#ccc; color:#022f40; }
-.modal-botones button:last-child:hover { background:#bbb; }
+.lista-panel li button.editar { background:#ffb74d; color:#fff; }
+.lista-panel li button.editar:hover { background:#ffa726; }
+.lista-panel li button.borrar { background:#e57373; color:#fff; }
+.lista-panel li button.borrar:hover { background:#ef5350; }
 
-/* Animaciones */
-@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-@keyframes slideDown { from {transform:translateY(-20px); opacity:0;} to {transform:translateY(0); opacity:1;} }
+/* FORMULARIO AGREGAR DIRECTOR */
+.form-agregar, .form-agregar-cancion {
+  display:flex;
+  flex-wrap: wrap;
+  gap:10px;
+  margin-bottom:20px;
+}
+.form-agregar input, .form-agregar-cancion input {
+  flex:1;
+  min-width:120px;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #999;
+}
+.form-agregar button, .form-agregar-cancion button {
+  padding:10px 20px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+  background:#0288d1;
+  color:#fff;
+}
+.form-agregar button:hover, .form-agregar-cancion button:hover {
+  background:#0277bd;
+}
 
 /* Responsive */
-@media(max-width:500px){
-  h1{font-size:1.6rem;}
-  .role-btn{padding:14px; font-size:1rem;}
-  .form-agregar{flex-direction:column;}
-  .form-agregar input{width:100%; margin-bottom:10px;}
+@media(max-width:600px){
+  .form-agregar, .form-agregar-cancion { flex-direction:column; }
+  .form-agregar input, .form-agregar-cancion input { width:100%; }
 }
