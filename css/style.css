@@ -1,116 +1,145 @@
-/* Reset y colores neutros */
-* { margin:0; padding:0; box-sizing:border-box; }
-
+/* ---------- GENERAL ---------- */
 body {
-  font-family: Arial, sans-serif;
-  background: #cce7ff;
-  min-height: 100vh;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #e0f0ff;
+  color: #022f40;
   text-align: center;
   padding: 20px;
-  color: #03396c;
 }
 
-h1 { font-size:2rem; margin-bottom:20px; }
+h1 { font-size: 2rem; margin-bottom: 20px; }
+h2 { margin-top: 20px; }
 
-/* Botones rol */
-.roles { display:flex; flex-direction:column; gap:15px; max-width:350px; margin:auto; }
+/* ---------- BOTONES ROL ---------- */
+.roles {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 350px;
+  margin: auto;
+}
 .role-btn {
-  padding:18px; font-size:1.2rem; font-weight:bold;
-  border:none; border-radius:10px; cursor:pointer;
-  transition:0.3s; background:#66b2ff; color:#fff;
+  padding: 18px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  background: #66b2ff;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
-.role-btn:hover { background:#3399ff; transform:translateY(-2px); }
+.role-btn:hover { background: #3399ff; transform: translateY(-2px); }
 
-/* Ocultar secciones */
-.oculto { display:none; }
-
-/* Formulario agregar director */
+/* ---------- FORMULARIO AGREGAR DIRECTOR ---------- */
 .form-agregar {
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-bottom:20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 .form-agregar input {
-  padding:10px;
-  flex:1;
-  border-radius:6px;
-  border:1px solid #999;
-  font-size:1rem;
+  padding: 12px;
+  flex: 1;
+  min-width: 150px;
+  border-radius: 8px;
+  border: 1px solid #999;
+  font-size: 1rem;
 }
 .form-agregar button {
-  padding:10px 15px;
-  font-size:1rem;
-  background:#66b2ff;
-  color:#fff;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
+  padding: 12px 20px;
+  font-size: 1rem;
+  background: #0288d1;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
-.form-agregar button:hover { background:#3399ff; }
+.form-agregar button:hover { background: #0277bd; }
 
-/* Lista de directores */
+/* ---------- LISTA DIRECTORES ---------- */
 ul#listaDirectores li {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:#fff;
-  color:#03396c;
-  padding:10px;
-  border-radius:6px;
-  margin-bottom:8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 ul#listaDirectores li button {
-  margin-left:5px;
-  padding:5px 8px;
-  font-size:0.9rem;
-  border-radius:4px;
+  margin-left: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
 }
+ul#listaDirectores li button:first-child { background:#ffb74d; color:#fff; }
+ul#listaDirectores li button:first-child:hover { background:#ffa726; }
+ul#listaDirectores li button:last-child { background:#e57373; color:#fff; }
+ul#listaDirectores li button:last-child:hover { background:#ef5350; }
 
-/* Modal */
+/* ---------- MODAL ---------- */
 .modal {
   position: fixed;
-  top:0; left:0;
-  width:100%;
-  height:100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0,0,0,0.5);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  animation: fadeIn 0.2s ease-in-out;
 }
 .modal-contenido {
-  background:#fff;
-  color:#03396c;
-  padding:20px;
-  border-radius:10px;
-  width:90%;
-  max-width:400px;
-  text-align:center;
+  background: #fff;
+  color: #022f40;
+  padding: 25px 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  animation: slideDown 0.3s ease-out;
 }
+.modal-contenido h3 { margin-bottom: 10px; }
+.modal-contenido p { margin-bottom: 15px; font-weight: bold; }
 .modal-contenido input {
-  padding:10px;
-  width:100%;
-  margin-bottom:15px;
-  border-radius:6px;
-  border:1px solid #999;
+  padding: 12px;
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #999;
+  font-size: 1rem;
 }
 .modal-botones button {
-  margin:0 5px;
-  padding:8px 15px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
+  margin: 0 5px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
 }
-.modal-botones button:first-child { background:#66b2ff; color:#fff; }
-.modal-botones button:first-child:hover { background:#3399ff; }
-.modal-botones button:last-child { background:#ccc; color:#03396c; }
-.modal-botones button:last-child:hover { background:#aaa; }
+.modal-botones button:first-child { background:#0288d1; color:#fff; }
+.modal-botones button:first-child:hover { background:#0277bd; }
+.modal-botones button:last-child { background:#ccc; color:#022f40; }
+.modal-botones button:last-child:hover { background:#bbb; }
+
+/* Animaciones */
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+@keyframes slideDown { from {transform:translateY(-20px); opacity:0;} to {transform:translateY(0); opacity:1;} }
 
 /* Responsive */
 @media(max-width:500px){
-  h1{font-size:1.6rem;} 
-  .role-btn{padding:14px; font-size:1rem;} 
+  h1{font-size:1.6rem;}
+  .role-btn{padding:14px; font-size:1rem;}
   .form-agregar{flex-direction:column;}
   .form-agregar input{width:100%; margin-bottom:10px;}
 }
