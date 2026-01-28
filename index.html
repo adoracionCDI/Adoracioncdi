@@ -2,52 +2,115 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Administrador - Alabanza</title>
+  <title>--Gestión de Alabanza</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="css/style.css">
 
-  <!-- SUPABASE (YA EXISTE) -->
+  <!-- 1️⃣ Librería Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2️⃣ Cliente Supabase (TU ARCHIVO) -->
   <script src="js/supabase.js"></script>
 </head>
 <body>
 
-<header>
-  <h1>Administrador</h1>
-</header>
+<!-- ================= INICIO / ROLES ================= -->
+<section id="pantallaRol" class="pantalla">
+  <h1>Gestión de Alabanza</h1>
+  <p>Elegí tu rol</p>
 
-<main>
+  <div class="roles">
+    <button onclick="mostrarAdministrador()">Administrador</button>
+    <button onclick="mostrarDirector()">Director</button>
+    <button onclick="mostrarMusico()">Músico</button>
+  </div>
+</section>
 
-  <!-- ===== DIRECTORES ===== -->
-  <section class="card">
-    <h2>Directores</h2>
+<!-- ================= ADMINISTRADOR ================= -->
+<section id="pantallaAdmin" class="pantalla oculto">
 
-    <div class="row">
-      <input id="nuevoDirector" placeholder="Nombre del director">
-      <button onclick="agregarDirector()">Agregar</button>
-    </div>
+  <header>
+    <h1>Panel Administrador</h1>
+    <button onclick="volverInicio()">← Volver</button>
+  </header>
 
-    <ul id="listaDirectores"></ul>
-  </section>
+  <main>
 
-  <!-- ===== MÚSICAS ===== -->
-  <section class="card oculto" id="seccionMusicas">
-    <h2 id="tituloDirector"></h2>
+    <!-- DIRECTORES -->
+    <section class="card">
+      <h2>Directores</h2>
 
-    <div class="grid">
-      <input id="titulo" placeholder="Título de la canción">
-      <input id="tonalidad" placeholder="Tonalidad">
-      <input id="empieza" placeholder="Quién empieza (batería, voces…)">
-      <input type="file" id="imagen">
-    </div>
+      <div class="row">
+        <input id="nuevoDirector" placeholder="Nombre del director">
+        <button onclick="agregarDirector()">Agregar</button>
+      </div>
 
-    <button onclick="agregarMusica()">Agregar Música</button>
+      <ul id="listaDirectores"></ul>
+    </section>
 
-    <ul id="listaMusicas"></ul>
-  </section>
+    <!-- MÚSICAS -->
+    <section class="card oculto" id="seccionMusicas">
+      <h2 id="tituloDirector"></h2>
 
-</main>
+      <div class="grid">
+        <input id="titulo" placeholder="Título de la canción">
+        <input id="tonalidad" placeholder="Tonalidad">
+        <input id="empieza" placeholder="Quién empieza">
+        <input type="file" id="imagen">
+      </div>
 
+      <button onclick="agregarMusica()">Agregar Música</button>
+      <ul id="listaMusicas"></ul>
+    </section>
+
+  </main>
+</section>
+
+<!-- ================= DIRECTOR ================= -->
+<section id="pantallaDirector" class="pantalla oculto">
+  <h1>Director</h1>
+  <p>(vista en construcción)</p>
+  <button onclick="volverInicio()">Volver</button>
+</section>
+
+<!-- ================= MUSICO ================= -->
+<section id="pantallaMusico" class="pantalla oculto">
+  <h1>Músico</h1>
+  <p>(vista en construcción)</p>
+  <button onclick="volverInicio()">Volver</button>
+</section>
+
+<!-- ================= JS PRINCIPAL ================= -->
+<script>
+  function ocultarTodo() {
+    document.querySelectorAll('.pantalla')
+      .forEach(p => p.classList.add('oculto'));
+  }
+
+  function mostrarAdministrador() {
+    ocultarTodo();
+    document.getElementById('pantallaAdmin').classList.remove('oculto');
+  }
+
+  function mostrarDirector() {
+    ocultarTodo();
+    document.getElementById('pantallaDirector').classList.remove('oculto');
+  }
+
+  function mostrarMusico() {
+    ocultarTodo();
+    document.getElementById('pantallaMusico').classList.remove('oculto');
+  }
+
+  function volverInicio() {
+    ocultarTodo();
+    document.getElementById('pantallaRol').classList.remove('oculto');
+  }
+</script>
+
+<!-- 3️⃣ Lógica Supabase -->
 <script src="js/app.js"></script>
+
 </body>
 </html>
